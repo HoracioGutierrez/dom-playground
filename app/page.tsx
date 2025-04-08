@@ -42,6 +42,10 @@ export default function Home() {
       return animate(scope.current, { backgroundColor: "#ff6669" })
     }
 
+    if (draggingTag.name !== "html" && children.length >= 1) {
+      return animate(scope.current, { backgroundColor: "#ff6669" })
+    }
+
     animate(scope.current, { backgroundColor: "#00bd84" })
   }
 
@@ -57,6 +61,8 @@ export default function Home() {
     if (draggingTag.name === "html" && children.length > 0) return
 
     if (draggingTag.name !== "html" && children.length === 0) return
+
+    if (draggingTag.name !== "html" && children.length >= 1) return
 
     const newTag = {
       ...draggingTag,

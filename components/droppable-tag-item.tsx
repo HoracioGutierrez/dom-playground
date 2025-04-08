@@ -12,6 +12,7 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget }: Dr
     };
 
     const handleDragEnd = () => {
+        animate(scope.current.children[0], { backgroundColor: "#7a83ff" })
     };
 
     const handleDragOverAnimation = (e:DragEvent) => {
