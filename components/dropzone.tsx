@@ -58,7 +58,7 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
 
         const newTag = {
             ...draggingTag,
-            id: draggingTag.id + (children.length + 1)
+            id: draggingTag.id + "-" + Math.random().toString(36).substring(2, 15)
         }
         setChildren([...children, newTag])
     }
@@ -70,7 +70,7 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
             initial="initial"
             animate="animate"
             exit="exit"
-            className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2"
+            className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2 z-0 border-border"
             //onMouseEnter={handleDragOverAnimation}
             onMouseLeave={handleDragOverEndAnimation}
             onMouseUp={handleDropAnimation}
@@ -85,6 +85,9 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
                             elementConstraints={scope}
                             isDragging={isDragging}
                             setTarget={setTarget}
+                            setChildren={setChildren}
+                            children={children}
+                            draggingTag={draggingTag}
                         />
                     )
                 })}

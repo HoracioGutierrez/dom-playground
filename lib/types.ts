@@ -17,6 +17,9 @@ export type DroppableTagItemProps = {
     tag: Tag;
     isDragging: boolean;
     setTarget: (htmlTag: string | null) => void;
+    setChildren: (children: Tag[]) => void;
+    children : Tag[];
+    draggingTag: Tag | null;
 }
 
 export type Tag = {

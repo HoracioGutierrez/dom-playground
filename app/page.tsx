@@ -5,8 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { tags } from "@/lib/tags";
 import { Tag } from "@/lib/types";
 import { T } from "gt-next";
-import { useAnimate } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
 
@@ -15,7 +14,6 @@ export default function Home() {
   const [draggingTag, setDraggingTag] = useState<Tag | null>(null)
   const [children, setChildren] = useState<Tag[]>([])
   const [target, setTarget] = useState<string | null>(null)
-  const [scope, animate] = useAnimate()
 
   return (
     <section className="grow grid grid-rows-[min-content_1fr] gap-4">
@@ -26,7 +24,7 @@ export default function Home() {
         </T>
       </div>
       <div className="grid lg:grid-cols-[min-content_1fr] gap-4 grow" ref={ref}>
-        <ScrollArea className="rounded-base h-full w-[350px] border-4 border-dashed bg-main/20 backdrop-blur-[2px] p-4 grow" id="scrollable">
+        <ScrollArea className="rounded-base h-full w-[350px] border-4 border-border border-dashed bg-main/20 backdrop-blur-[2px] p-4 grow z-50" id="scrollable">
           <div className="flex flex-col gap-2">
             {tags.map((tag) => {
               return (

@@ -31,6 +31,7 @@ function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggi
 
     return (
         <motion.div
+            className="z-50"
             drag
             dragConstraints={elementConstraints}
             dragElastic={0.3}
@@ -43,7 +44,7 @@ function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggi
             data-tag={JSON.stringify(tag)}
         >
             <Button className="w-[calc(100%_-_4px)] cursor-pointer">
-                {tag.name}
+                {`<${tag.name}/>`}
             </Button>
         </motion.div>
     );
