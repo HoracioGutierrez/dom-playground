@@ -7,6 +7,7 @@ export type TagItemProps = {
     setIsDragging: (isDragging: boolean) => void;
     isDragging: boolean;
     tag: Tag;
+    setDraggingTag: (tag: Tag | null) => void;
 };
 
 export type Tag = {
