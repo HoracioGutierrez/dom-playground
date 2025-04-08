@@ -8,7 +8,16 @@ export type TagItemProps = {
     isDragging: boolean;
     tag: Tag;
     setDraggingTag: (tag: Tag | null) => void;
+    setTarget: (htmlTag: string | null) => void;
+    target: string | null;
 };
+
+export type DroppableTagItemProps = {
+    elementConstraints: React.RefObject<null>;
+    tag: Tag;
+    isDragging: boolean;
+    setTarget: (htmlTag: string | null) => void;
+}
 
 export type Tag = {
     id: string;

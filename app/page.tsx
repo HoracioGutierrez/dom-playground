@@ -1,4 +1,5 @@
 "use client"
+import DroppableTagItem from "@/components/droppable-tag-item";
 import TagItem from "@/components/tag-item";
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { tags } from "@/lib/tags";
@@ -6,22 +7,33 @@ import { Tag } from "@/lib/types";
 import { T } from "gt-next";
 import { AnimatePresence, useAnimate } from "motion/react";
 import * as motion from "motion/react-client"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
 
   const ref = useRef(null)
-  const [isDragging, setIsDragging] = useState(false)
+  const [isDragging, setIsDragging] = useState<boolean>(false)
   const [draggingTag, setDraggingTag] = useState<Tag | null>(null)
-  const [scope, animate] = useAnimate()
   const [children, setChildren] = useState<Tag[]>([])
+  const [target, setTarget] = useState<string | null>(null)
+  const [scope, animate] = useAnimate()
+
+  useEffect(() => {
+    if (isDragging) {
+      handleDragOverAnimation()
+    }
+
+    if (target !== "dropzone") {
+      handleDragOverEndAnimation()
+    }
+  }, [isDragging, draggingTag, target])
 
   const handleDragOverAnimation = () => {
     if (!isDragging) return
-
     if (!draggingTag) return
+    if (!target) return
+    if (target !== "dropzone") return
 
-    //validate HTML constraints
     if (draggingTag.name === "html" && children.length > 0) {
       return animate(scope.current, { backgroundColor: "#ff6669" })
     }
@@ -30,7 +42,7 @@ export default function Home() {
       return animate(scope.current, { backgroundColor: "#ff6669" })
     }
 
-    animate(scope.current, { backgroundColor: "#7a83ff" })
+    animate(scope.current, { backgroundColor: "#00bd84" })
   }
 
   const handleDragOverEndAnimation = () => {
@@ -73,6 +85,8 @@ export default function Home() {
                   isDragging={isDragging}
                   tag={tag}
                   setDraggingTag={setDraggingTag}
+                  setTarget={setTarget}
+                  target={target}
                 />
               )
             })}
@@ -85,24 +99,21 @@ export default function Home() {
           animate="animate"
           exit="exit"
           className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2"
-          onMouseEnter={handleDragOverAnimation}
+          //onMouseEnter={handleDragOverAnimation}
           onMouseLeave={handleDragOverEndAnimation}
           onMouseUp={handleDropAnimation}
         >
           <AnimatePresence>
             {children.map((tag) => {
+
               return (
-                <motion.div
+                <DroppableTagItem
                   key={tag.id}
-                  className="rounded-base bg-main/20 backdrop-blur-[2px] p-4 border-4"
-                  variants={{
-                    initial: { opacity: 0, y: 50 },
-                    animate: { opacity: 1, y: 0 },
-                    exit: { opacity: 0, y: 50 }
-                  }}
-                >
-                  <p className="text-foreground">{tag.name}</p>
-                </motion.div>
+                  tag={tag}
+                  elementConstraints={scope}
+                  isDragging={isDragging}
+                  setTarget={setTarget}
+                />
               )
             })}
           </AnimatePresence>

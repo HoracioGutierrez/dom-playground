@@ -3,9 +3,18 @@ import * as motion from "motion/react-client";
 import { Button } from "./ui/button";
 import { TagItemProps } from "@/lib/types";
 
-function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggingTag }: TagItemProps) {
+function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggingTag, setTarget, target }: TagItemProps) {
 
-    const handleDrag = () => {
+    const handleDrag = (e: DragEvent) => {
+
+        if (e.target instanceof HTMLElement === false) return
+
+        if (isDragging && (target === null || target !== e.target.id)) {
+            if (e.target instanceof HTMLElement) {
+                setTarget(e.target.id)
+            }
+        }
+
         if (!isDragging) {
             setIsDragging(true);
             setDraggingTag(tag);
@@ -16,6 +25,7 @@ function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggi
         if (isDragging) {
             setIsDragging(false);
             setDraggingTag(null);
+            setTarget(null);
         }
     };
 
