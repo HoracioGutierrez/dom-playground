@@ -31,3 +31,12 @@ export type PossibleChildren = {
     name: string;
     limit: number | null; 
 }
+
+export type DropzoneProps = {
+    isDragging: boolean;
+    target: string | null;
+    draggingTag: Tag | null;
+    children : Tag[];
+    setChildren: (children: Tag[]) => void;
+    setTarget: (htmlTag: string | null) => void;
+}

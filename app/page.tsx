@@ -1,12 +1,11 @@
 "use client"
-import DroppableTagItem from "@/components/droppable-tag-item";
+import Dropzone from "@/components/dropzone";
 import TagItem from "@/components/tag-item";
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { tags } from "@/lib/tags";
 import { Tag } from "@/lib/types";
 import { T } from "gt-next";
-import { AnimatePresence, useAnimate } from "motion/react";
-import * as motion from "motion/react-client"
+import { useAnimate } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -17,59 +16,6 @@ export default function Home() {
   const [children, setChildren] = useState<Tag[]>([])
   const [target, setTarget] = useState<string | null>(null)
   const [scope, animate] = useAnimate()
-
-  useEffect(() => {
-    if (isDragging) {
-      handleDragOverAnimation()
-    }
-
-    if (target !== "dropzone") {
-      handleDragOverEndAnimation()
-    }
-  }, [isDragging, draggingTag, target])
-
-  const handleDragOverAnimation = () => {
-    if (!isDragging) return
-    if (!draggingTag) return
-    if (!target) return
-    if (target !== "dropzone") return
-
-    if (draggingTag.name === "html" && children.length > 0) {
-      return animate(scope.current, { backgroundColor: "#ff6669" })
-    }
-
-    if (draggingTag.name !== "html" && children.length === 0) {
-      return animate(scope.current, { backgroundColor: "#ff6669" })
-    }
-
-    if (draggingTag.name !== "html" && children.length >= 1) {
-      return animate(scope.current, { backgroundColor: "#ff6669" })
-    }
-
-    animate(scope.current, { backgroundColor: "#00bd84" })
-  }
-
-  const handleDragOverEndAnimation = () => {
-    animate(scope.current, { backgroundColor: "#ffffff00" })
-  }
-
-  const handleDropAnimation = () => {
-    handleDragOverEndAnimation()
-
-    if (!draggingTag) return
-
-    if (draggingTag.name === "html" && children.length > 0) return
-
-    if (draggingTag.name !== "html" && children.length === 0) return
-
-    if (draggingTag.name !== "html" && children.length >= 1) return
-
-    const newTag = {
-      ...draggingTag,
-      id: draggingTag.id + (children.length + 1)
-    }
-    setChildren([...children, newTag])
-  }
 
   return (
     <section className="grow grid grid-rows-[min-content_1fr] gap-4">
@@ -98,32 +44,14 @@ export default function Home() {
             })}
           </div>
         </ScrollArea>
-        <motion.div
-          ref={scope}
-          id="dropzone"
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2"
-          //onMouseEnter={handleDragOverAnimation}
-          onMouseLeave={handleDragOverEndAnimation}
-          onMouseUp={handleDropAnimation}
-        >
-          <AnimatePresence>
-            {children.map((tag) => {
-
-              return (
-                <DroppableTagItem
-                  key={tag.id}
-                  tag={tag}
-                  elementConstraints={scope}
-                  isDragging={isDragging}
-                  setTarget={setTarget}
-                />
-              )
-            })}
-          </AnimatePresence>
-        </motion.div>
+        <Dropzone
+          children={children}
+          setChildren={setChildren}
+          isDragging={isDragging}
+          draggingTag={draggingTag}
+          setTarget={setTarget}
+          target={target}
+        />
       </div>
     </section>
   );
