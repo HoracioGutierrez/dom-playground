@@ -7,6 +7,7 @@ import { Tag } from "@/lib/types";
 import { useTags } from "@/stores/useTags";
 import { T } from "gt-next";
 import { useRef, useState } from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function Home() {
 
@@ -25,8 +26,8 @@ export default function Home() {
           <p className="text-foreground/50 font-base">Drag and drop HTML tags to the left into the dropzone to the right.</p>
         </T>
       </div>
-      <div className="grid lg:grid-cols-[min-content_1fr] gap-4 grow" ref={ref}>
-        <ScrollArea className="rounded-base h-full w-[350px] border-4 border-border border-dashed bg-main/20 backdrop-blur-[2px] p-4 grow z-50" id="scrollable">
+      <div className="grid lg:grid-cols-[min-content_1fr_auto] gap-4 grow" ref={ref}>
+        <ScrollArea className="rounded-base h-full w-[350px] border-2 border-border border-dashed bg-main/20 backdrop-blur-[2px] p-4 grow z-50" id="scrollable">
           <div className="flex flex-col gap-2">
             {tags.map((tag) => {
               return (
@@ -52,6 +53,20 @@ export default function Home() {
           setTarget={setTarget}
           target={target}
         />
+        <Card className="w-full min-w-xs">
+          <CardHeader>
+            <CardTitle>
+              <T>
+                <h2 className="font-heading text-2xl">HTML</h2>
+              </T>
+            </CardTitle>
+            <CardDescription>
+              <T>
+                <p className="text-foreground/50 font-base">The HTML code generated from the tags you have dropped.</p>
+              </T>
+            </CardDescription>
+          </CardHeader>
+        </Card>
       </div>
     </section>
   );

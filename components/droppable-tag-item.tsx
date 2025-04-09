@@ -11,7 +11,7 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
     const [scope, animate] = useAnimate()
     const [isHovered, setIsHovered] = useState(false)
     const [canBeDropped, setCanBeDropped] = useState(false)
-    const { draggingTag: store_draggingTag, target: store_target, isDragging: store_isDragging, children: store_children, setChildren: store_setChildren, setTarget: store_setTarget, setIsDragging, setDraggingTag , setError } = useTags()
+    const { draggingTag: store_draggingTag, target: store_target, isDragging: store_isDragging, children: store_children, setChildren: store_setChildren, setTarget: store_setTarget, setIsDragging, setDraggingTag, setError } = useTags()
 
 
     useEffect(() => {
@@ -79,7 +79,7 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
             setError("")
         } else {
             animate(scope.current.children[0], { backgroundColor: "#ff6669" })
-            setError(`The tag ${store_draggingTag?.name} cannot be placed inside a ${tag.name} tag as one of it's direct children`)
+            setError(`The tag <${store_draggingTag?.name}/> cannot be placed inside a <${tag.name}/> tag as one of it's direct children`)
         }
     }
 

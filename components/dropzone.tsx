@@ -3,6 +3,7 @@ import DroppableTagItem from "@/components/droppable-tag-item";
 import { DropzoneProps } from "@/lib/types";
 import { useTags } from "@/stores/useTags";
 import { T } from "gt-next";
+import { Info } from "lucide-react";
 import { AnimatePresence, useAnimate } from "motion/react";
 import * as motion from "motion/react-client"
 import { useEffect } from "react";
@@ -81,7 +82,7 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
             initial="initial"
             animate="animate"
             exit="exit"
-            className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2 z-0 border-border bg-main/20 relative"
+            className="border-2 border-dashed rounded-base p-4 flex flex-col gap-2 z-0 border-border bg-main/20 relative"
             //onMouseEnter={handleDragOverAnimation}
             //onMouseLeave={handleDragOverEndAnimation}
             onMouseUp={handleDropAnimation}
@@ -110,9 +111,9 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
                             animate: { opacity: 1, x: 0 },
                             exit: { opacity: 0, x: 50 }
                         }}
-                        className="rounded-base p-2 text-sm font-bold text-foreground w-full grow flex justify-center items-center pointer-events-none"
+                        className="rounded-base p-2 text-lg font-bold text-foreground/50 w-full grow flex justify-center items-center pointer-events-none"
                     >
-                        drop here
+                        Click and drag one of the tags to the left and drop it here to start building
                     </motion.div>
                 )}
                 {error && (
@@ -122,10 +123,10 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
                             animate: { opacity: 1, x: 0 },
                             exit: { opacity: 0, x: 50 }
                         }}
-                        className="pointer-events-none absolute bg-[#ff6669]/50 h-auto p-2 border-4 rounded-md bottom-4 left-4 right-4"
+                        className="pointer-events-none absolute bg-[#ff6669]/50 h-auto p-2 border-4 rounded-md bottom-4 left-4 right-4 flex gap-2 items-center justify-center animate-pulse"
                     >
                         <T>
-                            {error}
+                            {error} <Info/>
                         </T>
                     </motion.div>
                 )}
