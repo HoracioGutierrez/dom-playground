@@ -76,6 +76,7 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
         if (canBeDropped) {
             animate(scope.current.children[0], { backgroundColor: "#00bd84" })
             setCanBeDropped(true)
+            setError("")
         } else {
             animate(scope.current.children[0], { backgroundColor: "#ff6669" })
             setError(`The tag ${store_draggingTag?.name} cannot be placed inside a ${tag.name} tag as one of it's direct children`)
@@ -85,7 +86,7 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
     const handleDragOverEndAnimation = () => {
         animate(scope.current.children[0], { backgroundColor: "#7a83ff" })
         setCanBeDropped(false)
-        setError("")
+        //setError("")
     }
 
     const handleDropAnimation = () => {

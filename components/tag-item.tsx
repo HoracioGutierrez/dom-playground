@@ -6,7 +6,7 @@ import { useTags } from "@/stores/useTags";
 
 function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggingTag, setTarget, target }: TagItemProps) {
 
-    const { setTarget: store_setTarget, target: store_target, isDragging: store_isDragging, setIsDragging: store_setIsDragging, setDraggingTag: store_setDraggingTag, draggingTag: store_draggingTag } = useTags()
+    const { setTarget: store_setTarget, target: store_target, isDragging: store_isDragging, setIsDragging: store_setIsDragging, setDraggingTag: store_setDraggingTag, draggingTag: store_draggingTag, setError } = useTags()
 
     const handleDrag = (e: PointerEvent) => {
         if (!store_isDragging) {
@@ -32,6 +32,7 @@ function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggi
         store_setIsDragging(false)
         store_setTarget("")
         store_setDraggingTag(null)
+        setError(null)
     };
 
     return (
