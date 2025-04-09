@@ -4,12 +4,29 @@ import { Button } from "./ui/button";
 import { DroppableTagItemProps, Tag } from "@/lib/types";
 import { AnimatePresence, useAnimate } from "motion/react";
 import { useEffect, useState } from "react";
+import { useTags } from "@/stores/useTags";
 
-function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, children, setChildren, draggingTag }: DroppableTagItemProps) {
+function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, children, setChildren, draggingTag, target }: DroppableTagItemProps) {
 
     const [scope, animate] = useAnimate()
     const [isHovered, setIsHovered] = useState(false)
     const [canBeDropped, setCanBeDropped] = useState(false)
+    const { draggingTag: store_draggingTag, target: store_target, isDragging: store_isDragging, children: store_children, setChildren: store_setChildren, setTarget: store_setTarget, setIsDragging, setDraggingTag , setError } = useTags()
+
+
+    useEffect(() => {
+        if (store_isDragging && store_target === tag.id) {
+            handleDragOverAnimation()
+        }
+
+        if (store_isDragging && store_target !== tag.id) {
+            handleDragOverEndAnimation()
+        }
+
+        if (!store_isDragging) {
+            handleDragOverEndAnimation()
+        }
+    }, [store_isDragging, store_target])
 
     const handleDrag = () => {
     };
@@ -18,59 +35,81 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
         animate(scope.current.children[0], { backgroundColor: "#7a83ff" })
     };
 
+    const addChildren = (children: Tag[], newTag: Tag, containerTag: Tag): Tag[] => {
 
-    const check = (children: Tag[]) => {
-        let result = false
-        children.forEach((child) => {
-
-            child.possibleChildren.forEach((possibleChild) => {
-                if (possibleChild.name === draggingTag?.name) {
-                    setCanBeDropped(true)
-                    result = true
-                }
-            })
-
-            if (child.children) {
-                return check(child.children)
-            }
-        })
-        return result
-    }
-
-    const handleDragOverAnimation = (e: DragEvent) => {
-        if (!isDragging) return
-
-        if (e.target instanceof HTMLElement) {
-            setTarget(e.target.id)
+        const formatNewTag = {
+            ...newTag,
+            id: newTag.id + "-" + Math.random().toString(36).substr(2, 9)
         }
 
-        const result = check(children)
-        if(result){
+        const childrenCopy = [...children]
+
+        return childrenCopy.map((child: Tag) => {
+
+            if (child.id === containerTag.id) {
+                return {
+                    ...child,
+                    children: [...child.children!, formatNewTag]
+                }
+            }
+
+            if (child.children && child.children.length > 0) {
+                return {
+                    ...child,
+                    children: addChildren(child.children, formatNewTag, containerTag)
+                }
+            }
+
+            return child
+        })
+    }
+
+    const handleDragOverAnimation = () => {
+        let canBeDropped = false;
+
+        tag.possibleChildren.forEach((child) => {
+            if (child.name === store_draggingTag?.name) {
+                canBeDropped = true
+            }
+        })
+
+        if (canBeDropped) {
             animate(scope.current.children[0], { backgroundColor: "#00bd84" })
-            setIsHovered(true)
+            setCanBeDropped(true)
         } else {
-            animate(scope.current.children[0], { backgroundColor: "#ff6669" }) 
+            animate(scope.current.children[0], { backgroundColor: "#ff6669" })
+            setError(`The tag ${store_draggingTag?.name} cannot be placed inside a ${tag.name} tag as one of it's direct children`)
         }
     }
 
     const handleDragOverEndAnimation = () => {
-        if (!isDragging) return
         animate(scope.current.children[0], { backgroundColor: "#7a83ff" })
-        setIsHovered(false)
         setCanBeDropped(false)
+        setError("")
     }
 
     const handleDropAnimation = () => {
-        handleDragOverEndAnimation()
-        /* console.log(children)
-        console.log(tag)
-        console.log(draggingTag) */
+        let canBeDropped = false;
+
+        tag.possibleChildren.forEach((child) => {
+            if (child.name === store_draggingTag?.name) {
+                canBeDropped = true
+            }
+        })
+
+        if (canBeDropped && store_target === tag.id) {
+            const result = addChildren(store_children, store_draggingTag!, tag)
+            store_setChildren(result)
+            store_setTarget("")
+            setIsDragging(false)
+            setDraggingTag(null)
+        }
     }
 
     return (
         <motion.div
-            className="z-0"
-            id={tag.id}
+            className="z-0 w-full"
+            /* id={tag.id} */
             ref={scope}
             drag
             dragConstraints={elementConstraints}
@@ -81,8 +120,8 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
             dragTransition={{ bounceDamping: 15, bounceStiffness: 800 }}
             onDrag={handleDrag}
             onDragEnd={handleDragEnd}
-            onMouseEnter={(e) => handleDragOverAnimation(e as unknown as DragEvent)}
-            onMouseLeave={handleDragOverEndAnimation}
+            /* onMouseEnter={handleDragOverAnimation}
+            onMouseLeave={handleDragOverEndAnimation} */
             onMouseUp={handleDropAnimation}
             data-tag={JSON.stringify(tag)}
             variants={{
@@ -91,22 +130,39 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
                 exit: { opacity: 0, y: 50 }
             }}
         >
-            <Button className="w-[calc(100%_-_4px)] cursor-pointer flex flex-col gap-2 h-auto z-0">
-                {tag.name}
-                <AnimatePresence>
-                    {isHovered && (
-                        <motion.div
-                            className="border-dashed border-2 rounded-base p-2 text-sm font-bold text-foreground w-full"
-                            variants={{
-                                initial: { opacity: 0, x: 50 },
-                                animate: { opacity: 1, x: 0 },
-                                exit: { opacity: 0, x: 50 }
-                            }}
-                        >
-                            new item
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+            <Button className="w-[calc(100%_-_4px)] cursor-pointer flex flex-col gap-2 h-auto z-0" asChild id={tag.id}>
+                <div className="w-full">
+                    {tag.name}
+                    <AnimatePresence>
+                        {canBeDropped && (
+                            <motion.div
+                                className="border-dashed border-2 rounded-base p-2 text-sm font-bold text-foreground w-full pointer-events-none"
+                                variants={{
+                                    initial: { opacity: 0, x: 50 },
+                                    animate: { opacity: 1, x: 0 },
+                                    exit: { opacity: 0, x: 50 }
+                                }}
+                            >
+                                new item
+                            </motion.div>
+                        )}
+                        {tag.children && tag.children.map((child) => {
+                            return (
+                                <DroppableTagItem
+                                    key={child.id}
+                                    tag={child}
+                                    elementConstraints={scope}
+                                    isDragging={isDragging}
+                                    setTarget={setTarget}
+                                    setChildren={setChildren}
+                                    children={child.children}
+                                    draggingTag={draggingTag}
+                                    target={target}
+                                />
+                            )
+                        })}
+                    </AnimatePresence>
+                </div>
             </Button>
         </motion.div>
     )

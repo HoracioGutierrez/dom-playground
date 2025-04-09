@@ -4,6 +4,7 @@ import TagItem from "@/components/tag-item";
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { tags } from "@/lib/tags";
 import { Tag } from "@/lib/types";
+import { useTags } from "@/stores/useTags";
 import { T } from "gt-next";
 import { useRef, useState } from "react";
 
@@ -14,6 +15,7 @@ export default function Home() {
   const [draggingTag, setDraggingTag] = useState<Tag | null>(null)
   const [children, setChildren] = useState<Tag[]>([])
   const [target, setTarget] = useState<string | null>(null)
+  const { target: store_target } = useTags()
 
   return (
     <section className="grow grid grid-rows-[min-content_1fr] gap-4">

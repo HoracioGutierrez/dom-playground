@@ -1,6 +1,8 @@
 "use client"
 import DroppableTagItem from "@/components/droppable-tag-item";
 import { DropzoneProps } from "@/lib/types";
+import { useTags } from "@/stores/useTags";
+import { T } from "gt-next";
 import { AnimatePresence, useAnimate } from "motion/react";
 import * as motion from "motion/react-client"
 import { useEffect } from "react";
@@ -9,58 +11,67 @@ import { useEffect } from "react";
 function Dropzone({ isDragging, target, draggingTag, children, setChildren, setTarget }: DropzoneProps) {
 
     const [scope, animate] = useAnimate()
+    const { draggingTag: store_draggingTag, target: store_target, isDragging: store_isDragging, children: store_children, setChildren: store_setChildren, error } = useTags()
 
     useEffect(() => {
-        if (isDragging) {
+        if (store_isDragging && store_target === "dropzone") {
             handleDragOverAnimation()
         }
 
-        if (target !== "dropzone") {
+        if (store_isDragging && store_target !== "dropzone") {
             handleDragOverEndAnimation()
         }
-    }, [isDragging, draggingTag, target])
+
+        if (!store_isDragging) {
+            handleDragOverEndAnimation()
+        }
+    }, [store_isDragging, store_target])
 
     const handleDragOverAnimation = () => {
-        if (!isDragging) return
-        if (!draggingTag) return
-        if (!target) return
-        if (target !== "dropzone") return
+        if (!store_isDragging) return
+        if (!store_draggingTag) return
+        if (!store_target) return
+        if (store_target !== "dropzone") return
 
-        if (draggingTag.name === "html" && children.length > 0) {
+        //These add the red background to the dropzone
+        if (store_draggingTag.name !== "html" && store_children.length === 0) {
             return animate(scope.current, { backgroundColor: "#ff6669" })
         }
 
-        if (draggingTag.name !== "html" && children.length === 0) {
+        if (store_draggingTag.name === "html" && store_children.length > 0) {
             return animate(scope.current, { backgroundColor: "#ff6669" })
         }
 
-        if (draggingTag.name !== "html" && children.length >= 1) {
+        if (store_draggingTag.name !== "html" && store_children.length >= 1) {
             return animate(scope.current, { backgroundColor: "#ff6669" })
         }
 
+        //This adds the green background to the dropzone
         animate(scope.current, { backgroundColor: "#00bd84" })
     }
 
     const handleDragOverEndAnimation = () => {
-        animate(scope.current, { backgroundColor: "#ffffff00" })
+        //This returns the background to transparent
+        animate(scope.current, { backgroundColor: "#7a83ff33" })
     }
 
     const handleDropAnimation = () => {
         handleDragOverEndAnimation()
 
-        if (!draggingTag) return
+        if (!store_draggingTag) return
 
-        if (draggingTag.name === "html" && children.length > 0) return
+        if (store_draggingTag.name === "html" && store_children.length > 0) return
 
-        if (draggingTag.name !== "html" && children.length === 0) return
+        if (store_draggingTag.name !== "html" && store_children.length === 0) return
 
-        if (draggingTag.name !== "html" && children.length >= 1) return
+        if (store_draggingTag.name !== "html" && store_children.length >= 1) return
 
         const newTag = {
-            ...draggingTag,
-            id: draggingTag.id + "-" + Math.random().toString(36).substring(2, 15)
+            ...store_draggingTag,
+            id: store_draggingTag.id + "-" + Math.random().toString(36).substring(2, 15)
         }
-        setChildren([...children, newTag])
+
+        store_setChildren([...children, newTag])
     }
 
     return (
@@ -70,13 +81,13 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
             initial="initial"
             animate="animate"
             exit="exit"
-            className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2 z-0 border-border"
+            className="border-4 border-dashed rounded-base p-4 flex flex-col gap-2 z-0 border-border bg-main/20 relative"
             //onMouseEnter={handleDragOverAnimation}
-            onMouseLeave={handleDragOverEndAnimation}
+            //onMouseLeave={handleDragOverEndAnimation}
             onMouseUp={handleDropAnimation}
         >
             <AnimatePresence>
-                {children.map((tag) => {
+                {store_children.map((tag) => {
 
                     return (
                         <DroppableTagItem
@@ -88,9 +99,36 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
                             setChildren={setChildren}
                             children={children}
                             draggingTag={draggingTag}
+                            target={target}
                         />
                     )
                 })}
+                {store_children.length === 0 && (
+                    <motion.div
+                        variants={{
+                            initial: { opacity: 0, x: 50 },
+                            animate: { opacity: 1, x: 0 },
+                            exit: { opacity: 0, x: 50 }
+                        }}
+                        className="rounded-base p-2 text-sm font-bold text-foreground w-full grow flex justify-center items-center pointer-events-none"
+                    >
+                        drop here
+                    </motion.div>
+                )}
+                {error && (
+                    <motion.div
+                        variants={{
+                            initial: { opacity: 0, x: 50 },
+                            animate: { opacity: 1, x: 0 },
+                            exit: { opacity: 0, x: 50 }
+                        }}
+                        className="pointer-events-none absolute bg-[#ff6669]/50 h-auto p-2 border-4 rounded-md bottom-4 left-4 right-4"
+                    >
+                        <T>
+                            {error}
+                        </T>
+                    </motion.div>
+                )}
             </AnimatePresence>
         </motion.div>
     )

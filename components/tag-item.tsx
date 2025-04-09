@@ -2,31 +2,36 @@
 import * as motion from "motion/react-client";
 import { Button } from "./ui/button";
 import { TagItemProps } from "@/lib/types";
+import { useTags } from "@/stores/useTags";
 
 function TagItem({ elementConstraints, setIsDragging, isDragging, tag, setDraggingTag, setTarget, target }: TagItemProps) {
 
-    const handleDrag = (e: DragEvent) => {
+    const { setTarget: store_setTarget, target: store_target, isDragging: store_isDragging, setIsDragging: store_setIsDragging, setDraggingTag: store_setDraggingTag, draggingTag: store_draggingTag } = useTags()
+
+    const handleDrag = (e: PointerEvent) => {
+        if (!store_isDragging) {
+            store_setIsDragging(true)
+        }
 
         if (e.target instanceof HTMLElement === false) return
 
-        if (isDragging && (target === null || target !== e.target.id)) {
-            if (e.target instanceof HTMLElement) {
-                setTarget(e.target.id)
-            }
+        if (store_target !== e.target.id) {
+            store_setTarget(e.target.id)
         }
 
-        if (!isDragging) {
-            setIsDragging(true);
-            setDraggingTag(tag);
+        if (!store_draggingTag) {
+            store_setDraggingTag(tag)
+        }
+
+        if (store_draggingTag && store_draggingTag.name !== tag.name) {
+            store_setDraggingTag(tag)
         }
     };
 
     const handleDragEnd = () => {
-        if (isDragging) {
-            setIsDragging(false);
-            setDraggingTag(null);
-            setTarget(null);
-        }
+        store_setIsDragging(false)
+        store_setTarget("")
+        store_setDraggingTag(null)
     };
 
     return (
