@@ -5,6 +5,7 @@ import { DroppableTagItemProps, Tag } from "@/lib/types";
 import { AnimatePresence, useAnimate } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTags } from "@/stores/useTags";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, children, setChildren, draggingTag, target }: DroppableTagItemProps) {
 
@@ -117,7 +118,7 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
             dragElastic={0.3}
             dragSnapToOrigin
             whileDrag={{ scale: 0.9, pointerEvents: "none" }}
-            whileTap={{ scale: 0.9 }}
+            /* whileTap={{ scale: 0.9 }} */
             dragTransition={{ bounceDamping: 15, bounceStiffness: 800 }}
             onDrag={handleDrag}
             onDragEnd={handleDragEnd}
@@ -131,24 +132,21 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
                 exit: { opacity: 0, y: 50 }
             }}
         >
-            <Button className="w-[calc(100%_-_4px)] cursor-pointer flex flex-col gap-2 h-auto z-0" asChild id={tag.id}>
-                <div className="w-full">
-                    {tag.name}
-                    <AnimatePresence>
-                        {canBeDropped && (
-                            <motion.div
-                                className="border-dashed border-2 rounded-base p-2 text-sm font-bold text-foreground w-full pointer-events-none"
-                                variants={{
-                                    initial: { opacity: 0, x: 50 },
-                                    animate: { opacity: 1, x: 0 },
-                                    exit: { opacity: 0, x: 50 }
-                                }}
-                            >
-                                new item
-                            </motion.div>
-                        )}
-                        {tag.children && tag.children.map((child) => {
-                            return (
+            <Card id={tag.id}>
+                <CardHeader className="pointer-events-none">
+                    <CardTitle>
+                        <span>{`<${tag.name}>`}</span>
+                        <AnimatePresence>
+                            {tag.children.length == 0 && (
+                                <span key={3}>{`</${tag.name}>`}</span>
+                            )}
+                        </AnimatePresence>
+                    </CardTitle>
+                </CardHeader>
+                <AnimatePresence>
+                    {tag.children && tag.children.map((child) => {
+                        return (
+                            <div className="px-6" key={child.id}>
                                 <DroppableTagItem
                                     key={child.id}
                                     tag={child}
@@ -160,11 +158,37 @@ function DroppableTagItem({ elementConstraints, tag, isDragging, setTarget, chil
                                     draggingTag={draggingTag}
                                     target={target}
                                 />
-                            )
-                        })}
-                    </AnimatePresence>
-                </div>
-            </Button>
+                            </div>
+                        )
+                    })}
+                    {canBeDropped && (
+                        <div className="px-6 pointer-events-none" key={1}>
+                            <motion.div
+                                className="border-dashed border-2 rounded-base p-2 text-sm font-bold text-foreground w-full pointer-events-none"
+                                variants={{
+                                    initial: { opacity: 0, x: 50 },
+                                    animate: { opacity: 1, x: 0 },
+                                    exit: { opacity: 0, x: 50 }
+                                }}
+                            >
+                                new item
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+                <AnimatePresence>
+                    {tag.children.length > 0 && (
+                        <CardFooter className="pointer-events-none" key={2}>
+                            <CardTitle>
+                                <span>{`</${tag.name}>`}</span>
+                            </CardTitle>
+                        </CardFooter>
+                    )}
+                </AnimatePresence>
+                {/* <Button className="w-[calc(100%_-_4px)] cursor-pointer flex flex-col gap-2 h-auto z-0" asChild id={tag.id}> */}
+
+                {/* </Button> */}
+            </Card>
         </motion.div>
     )
 }

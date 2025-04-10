@@ -169,5 +169,6 @@
  */
 
  #scrollable > div {
-    overflow: visible!important;
+    /* overflow: visible scroll!important; */
+    /* overflow-y: scroll!important; */
  }

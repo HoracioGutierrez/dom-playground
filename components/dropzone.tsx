@@ -12,7 +12,7 @@ import { useEffect } from "react";
 function Dropzone({ isDragging, target, draggingTag, children, setChildren, setTarget }: DropzoneProps) {
 
     const [scope, animate] = useAnimate()
-    const { draggingTag: store_draggingTag, target: store_target, isDragging: store_isDragging, children: store_children, setChildren: store_setChildren, error } = useTags()
+    const { draggingTag: store_draggingTag, target: store_target, isDragging: store_isDragging, children: store_children, setChildren: store_setChildren, error, setError } = useTags()
 
     useEffect(() => {
         if (store_isDragging && store_target === "dropzone") {
@@ -89,7 +89,6 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
         >
             <AnimatePresence>
                 {store_children.map((tag) => {
-
                     return (
                         <DroppableTagItem
                             key={tag.id}
@@ -106,6 +105,7 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
                 })}
                 {store_children.length === 0 && (
                     <motion.div
+                        key={"empty"}
                         variants={{
                             initial: { opacity: 0, x: 50 },
                             animate: { opacity: 1, x: 0 },
@@ -113,23 +113,27 @@ function Dropzone({ isDragging, target, draggingTag, children, setChildren, setT
                         }}
                         className="rounded-base p-2 text-lg font-bold text-foreground/50 w-full grow flex justify-center items-center pointer-events-none max-w-2xs flex-col gap-2 text-center mx-auto"
                     >
-                        <motion.div initial={{ y: -50 }} animate={{ y: 0, transition: { repeat: Infinity, repeatType: "reverse", bounce: 0.35, duration : 0.8} }}>
+                        <motion.div initial={{ y: -50 }} animate={{ y: 0, transition: { repeat: Infinity, repeatType: "reverse", bounce: 0.35, duration: 0.8 } }}>
                             <ArrowBigDown className="size-10" />
                         </motion.div>
-                        Click and drag one of the tags to the left and drop it here to start building
+                        <T>
+                            Click and drag one of the tags to the left and drop it here to start building
+                        </T>
                     </motion.div>
                 )}
                 {error && (
                     <motion.div
+                        key={"error"}
                         variants={{
                             initial: { opacity: 0, x: 50 },
                             animate: { opacity: 1, x: 0 },
                             exit: { opacity: 0, x: 50 }
                         }}
-                        className="pointer-events-none absolute bg-[#ff6669]/50 h-auto p-2 border-4 rounded-md bottom-4 left-4 right-4 flex gap-2 items-center justify-center animate-pulse"
+                        className="pointer-events-none absolute bg-[#ff6669]/50 h-auto p-2 border-4 rounded-md bottom-4 left-4 right-4 flex gap-2 justify-center animate-pulse"
                     >
+                        <Info className="size-10 text-red-400" />
                         <T>
-                            {error} <Info />
+                            {error}
                         </T>
                     </motion.div>
                 )}
