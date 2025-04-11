@@ -27,13 +27,14 @@ const generateHTML = (tag: Tag): string => {
 };
 
 export default function Home() {
+  
   const ref = useRef(null);
 
   return (
     <section className="grow grid grid-rows-[min-content_1fr] gap-4">
       <div
-        className="grid lg:grid-cols-[min-content_1fr_auto] gap-4 grow xl:gap-8 2xl:max-w-[1566px] mx-auto w-full"
         ref={ref}
+        className="grid lg:grid-cols-[min-content_1fr_auto] gap-4 grow xl:gap-8 2xl:max-w-[1566px] mx-auto w-full"
       >
         <TagSelectorPannel ref={ref} />
 

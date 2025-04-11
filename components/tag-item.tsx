@@ -18,6 +18,8 @@ function TagItem({ elementConstraints, tag }: TagItemProps) {
     setDraggingTag,
     draggingTag,
     setError,
+    setHoveredTarget,
+    hoveredTarget,
   } = useTags();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -68,6 +70,10 @@ function TagItem({ elementConstraints, tag }: TagItemProps) {
     opacity.set(0);
   };
 
+  const handleShowTooltip = () => {
+    setHoveredTarget(tag.description);
+  };
+
   return (
     <>
       <motion.div
@@ -90,7 +96,11 @@ function TagItem({ elementConstraints, tag }: TagItemProps) {
         data-tag={JSON.stringify(tag)}
         whileHover="hover"
       >
-        <Button className="w-[calc(100%_-_4px)] cursor-pointer">
+        <Button
+          className="w-[calc(100%_-_4px)] cursor-pointer"
+          onMouseEnter={handleShowTooltip}
+          onMouseLeave={()=>setHoveredTarget("")}
+        >
           {`<${tag.name}/>`}
         </Button>
       </motion.div>
