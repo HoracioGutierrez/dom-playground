@@ -19,6 +19,14 @@ export type Tag = {
   children: Tag[];
   possibleChildren: PossibleChildren[];
   description: string;
+  attributes: Attribute[];
+};
+
+export type Attribute = {
+  name: string;
+  value: string;
+  placeholder: string;
+  regex: RegExp;
 };
 
 export type PossibleChildren = {
@@ -42,10 +50,18 @@ export type useTagsProps = {
   draggingTag: Tag | null;
   error: string | null | React.ReactNode;
   hoveredTarget: string | null;
+  attributesModalOpen: boolean;
+  attributesTag: Tag | null;
+  setAttributesTag: (tag: Tag | null) => void;
+  setAttributesModalOpen: (open: boolean) => void;
   setChildren: (children: Tag[]) => void;
   setTarget: (target: string) => void;
   setHoveredTarget: (target: string) => void;
   setIsDragging: (isDragging: boolean) => void;
   setDraggingTag: (draggingTag: Tag | null) => void;
   setError: (error: string | null | React.ReactNode) => void;
+};
+
+export type AttributesModalProps = {
+  tag: Tag;
 };

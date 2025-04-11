@@ -7,6 +7,7 @@ import { useTags } from "@/stores/useTags";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import AttributesModal from "./attributes-modal";
 
 function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
   const [scope, animate] = useAnimate();
@@ -21,6 +22,8 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
     setIsDragging,
     setDraggingTag,
     setError,
+    setAttributesModalOpen,
+    setAttributesTag,
   } = useTags();
 
   useEffect(() => {
@@ -147,6 +150,11 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
     setError(null);
   };
 
+  const handleOpenAttributesEditor = () => {
+    setAttributesModalOpen(true);
+    setAttributesTag(tag);
+  };
+
   return (
     <motion.div
       className="z-0 w-full"
@@ -175,6 +183,7 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
         >
           <CardTitle className="text-lg flex items-center gap-2 group">
             {tag.name}
+            <AttributesModal tag={tag} />
             <Trash2
               className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer"
               onClick={handleRemove}
