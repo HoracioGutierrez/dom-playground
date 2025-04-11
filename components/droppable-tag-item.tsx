@@ -5,7 +5,8 @@ import { useAnimate } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTags } from "@/stores/useTags";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Copy, Plus, Trash, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
   const [scope, animate] = useAnimate();
@@ -121,6 +122,33 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
 
   const handleHoverLeave = () => {};
 
+  const handleRemove = () => {
+    // Find the tag in the children array and remove it
+    const removeTag = (children: Tag[], tagToRemove: Tag): Tag[] => {
+      return children.filter((child) => {
+        if (child.id === tagToRemove.id) {
+          return false;
+        }
+        
+        if (child.children && child.children.length > 0) {
+          child.children = removeTag(child.children, tagToRemove);
+        }
+        
+        return true;
+      });
+    };
+    
+    // Remove the current tag from the children array
+    const updatedChildren = removeTag(store_children, tag);
+    store_setChildren(updatedChildren);
+    
+    // Reset any relevant state
+    store_setTarget("");
+    setIsDragging(false);
+    setDraggingTag(null);
+    setError(null);
+  }
+
   return (
     <motion.div
       className="z-0 w-full"
@@ -147,8 +175,14 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
         id={tag.id}
         className="gap-2 !shadow-none bg-[#fef3c8] text-main-foreground p-3"
       >
-        <CardHeader className="pointer-events-none gap-0 px-0">
-          <CardTitle className="text-lg">{tag.name}</CardTitle>
+        <CardHeader
+          className={cn("gap-0 px-0", store_isDragging && "pointer-events-none")}
+        >
+          <CardTitle className="text-lg flex items-center gap-2 group">
+            {tag.name}
+            {/* <Copy className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer" /> */}
+            <Trash2 className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer" onClick={handleRemove}/>
+          </CardTitle>
         </CardHeader>
         {tag.children?.map((child) => {
           return (
