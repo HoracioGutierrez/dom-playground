@@ -29,6 +29,7 @@ export type Tag = {
     hasChildren: boolean;
     children: Tag[];
     possibleChildren: PossibleChildren[];
+    description: string;
 }
 
 export type PossibleChildren = {

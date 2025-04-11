@@ -4,6 +4,7 @@ export const tags: Tag[] = [
     {
         id: "html-original",
         name: "html",
+        description: "The root element of an HTML document. Common children: <head>, <body>.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -14,6 +15,7 @@ export const tags: Tag[] = [
     {
         id: "head-original",
         name: "head",
+        description: "Container for metadata, scripts, styles, and title.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -27,6 +29,7 @@ export const tags: Tag[] = [
     {
         id: "body-original",
         name: "body",
+        description: "Contains the visible page content. Common children: <header>, <main>, <footer>.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -49,6 +52,7 @@ export const tags: Tag[] = [
     {
         id: "title-original",
         name: "title",
+        description: "Sets the page title shown in the browser tab.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -56,6 +60,7 @@ export const tags: Tag[] = [
     {
         id: "meta-original",
         name: "meta",
+        description: "Defines metadata like charset, description, viewport, etc.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -63,6 +68,7 @@ export const tags: Tag[] = [
     {
         id: "link-original",
         name: "link",
+        description: "Links external resources like stylesheets or icons.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -70,6 +76,7 @@ export const tags: Tag[] = [
     {
         id: "style-original",
         name: "style",
+        description: "Contains internal CSS styles.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -77,6 +84,7 @@ export const tags: Tag[] = [
     {
         id: "script-original",
         name: "script",
+        description: "Embeds or references JavaScript code.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -84,6 +92,7 @@ export const tags: Tag[] = [
     {
         id: "header-original",
         name: "header",
+        description: "Represents introductory content. Often contains <h1>, <nav>.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -95,6 +104,7 @@ export const tags: Tag[] = [
     {
         id: "main-original",
         name: "main",
+        description: "Represents the primary content of the document.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -106,6 +116,7 @@ export const tags: Tag[] = [
     {
         id: "footer-original",
         name: "footer",
+        description: "Defines a footer for its nearest section or the page.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -117,6 +128,7 @@ export const tags: Tag[] = [
     {
         id: "div-original",
         name: "div",
+        description: "Generic container for grouping content and applying styles.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -131,6 +143,7 @@ export const tags: Tag[] = [
     {
         id: "p-original",
         name: "p",
+        description: "Defines a paragraph of text.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -144,6 +157,7 @@ export const tags: Tag[] = [
     {
         id: "span-original",
         name: "span",
+        description: "Inline container for text and inline elements.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -155,6 +169,7 @@ export const tags: Tag[] = [
     {
         id: "a-original",
         name: "a",
+        description: "Creates a hyperlink to another page or location.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -166,6 +181,7 @@ export const tags: Tag[] = [
     {
         id: "strong-original",
         name: "strong",
+        description: "Indicates strong importance, typically bold.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -175,6 +191,7 @@ export const tags: Tag[] = [
     {
         id: "em-original",
         name: "em",
+        description: "Emphasizes text, typically italic.",
         hasChildren: true,
         children: [],
         possibleChildren: [],
@@ -182,6 +199,7 @@ export const tags: Tag[] = [
     {
         id: "ul-original",
         name: "ul",
+        description: "Unordered list of items. Children must be <li>.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -191,6 +209,7 @@ export const tags: Tag[] = [
     {
         id: "ol-original",
         name: "ol",
+        description: "Ordered list of items. Children must be <li>.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -200,6 +219,7 @@ export const tags: Tag[] = [
     {
         id: "li-original",
         name: "li",
+        description: "List item within <ul> or <ol>. Can contain inline or block elements.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -211,6 +231,7 @@ export const tags: Tag[] = [
     {
         id: "img-original",
         name: "img",
+        description: "Embeds an image. Self-closing tag.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -218,6 +239,7 @@ export const tags: Tag[] = [
     {
         id: "br-original",
         name: "br",
+        description: "Inserts a line break. Self-closing tag.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -225,6 +247,7 @@ export const tags: Tag[] = [
     {
         id: "form-original",
         name: "form",
+        description: "Container for form controls like input, textarea, button.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -239,6 +262,7 @@ export const tags: Tag[] = [
     {
         id: "input-original",
         name: "input",
+        description: "Form input control for user data. Self-closing.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -246,6 +270,7 @@ export const tags: Tag[] = [
     {
         id: "label-original",
         name: "label",
+        description: "Defines a label for an <input>. Can contain text or inline elements.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -256,6 +281,7 @@ export const tags: Tag[] = [
     {
         id: "textarea-original",
         name: "textarea",
+        description: "Multiline text input control.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -263,6 +289,7 @@ export const tags: Tag[] = [
     {
         id: "button-original",
         name: "button",
+        description: "Clickable button, often used in forms.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -272,6 +299,7 @@ export const tags: Tag[] = [
     {
         id: "select-original",
         name: "select",
+        description: "Dropdown list of options.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -281,6 +309,7 @@ export const tags: Tag[] = [
     {
         id: "option-original",
         name: "option",
+        description: "Defines an item in a <select> dropdown.",
         hasChildren: false,
         children: [],
         possibleChildren: [],
@@ -288,6 +317,7 @@ export const tags: Tag[] = [
     {
         id: "section-original",
         name: "section",
+        description: "Thematic grouping of content. Usually contains a heading and related elements.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -299,6 +329,7 @@ export const tags: Tag[] = [
     {
         id: "article-original",
         name: "article",
+        description: "Self-contained composition like a blog post or news article.",
         hasChildren: true,
         children: [],
         possibleChildren: [
@@ -306,5 +337,5 @@ export const tags: Tag[] = [
             { name: "p", limit: null },
             { name: "div", limit: null },
         ],
-    },  
+    },
 ];

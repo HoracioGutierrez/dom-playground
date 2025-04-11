@@ -5,6 +5,7 @@ import { getLocale } from "gt-next/server";
 import Header from "@/components/layout/header";
 import { RootLayoutProps } from "@/lib/types";
 import "./globals.css";
+import Footer from "@/components/layout/footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <main className="p-4 grow flex flex-col">
               {children}
             </main>
+            <Footer/>
           </ThemeProvider>
         </GTProvider>
       </body>
