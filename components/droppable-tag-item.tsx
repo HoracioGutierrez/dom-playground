@@ -5,7 +5,7 @@ import { useAnimate } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTags } from "@/stores/useTags";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Copy, Plus, Trash, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
