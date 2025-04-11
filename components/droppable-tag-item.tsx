@@ -12,32 +12,30 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
   const [scope, animate] = useAnimate();
   const [canBeDropped, setCanBeDropped] = useState(false);
   const {
-    draggingTag: store_draggingTag,
-    target: store_target,
-    isDragging: store_isDragging,
-    children: store_children,
-    setChildren: store_setChildren,
-    setTarget: store_setTarget,
+    draggingTag,
+    target,
+    isDragging,
+    children,
+    setChildren,
+    setTarget,
     setIsDragging,
     setDraggingTag,
     setError,
-    setHoveredTarget,
-    hoveredTarget,
   } = useTags();
 
   useEffect(() => {
-    if (store_isDragging && store_target === tag.id) {
+    if (isDragging && target === tag.id) {
       handleDragOverAnimation();
     }
 
-    if (store_isDragging && store_target !== tag.id) {
+    if (isDragging && target !== tag.id) {
       handleDragOverEndAnimation();
     }
 
-    if (!store_isDragging) {
+    if (!isDragging) {
       handleDragOverEndAnimation();
     }
-  }, [store_isDragging, store_target, tag.id]);
+  }, [isDragging, target, tag.id]);
 
   const handleDrag = () => {};
 
@@ -78,7 +76,7 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
     let canBeDropped = false;
 
     for (const child of tag.possibleChildren) {
-      if (child.name === store_draggingTag?.name) {
+      if (child.name === draggingTag?.name) {
         canBeDropped = true;
         break;
       }
@@ -91,7 +89,7 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
     } else {
       animate(scope.current.children[0], { backgroundColor: "#ff6669" });
       setError(
-        `The tag <${store_draggingTag?.name}/> cannot be placed inside a <${tag.name}/> tag as one of it's direct children`,
+        `The tag <${draggingTag?.name}/> cannot be placed inside a <${tag.name}/> tag as one of it's direct children`,
       );
     }
   };
@@ -105,15 +103,15 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
     let canBeDropped = false;
 
     for (const child of tag.possibleChildren) {
-      if (child.name === store_draggingTag?.name) {
+      if (child.name === draggingTag?.name) {
         canBeDropped = true;
         break;
       }
     }
-    if (canBeDropped && store_target === tag.id && store_draggingTag) {
-      const result = addChildren(store_children, store_draggingTag, tag);
-      store_setChildren(result);
-      store_setTarget("");
+    if (canBeDropped && target === tag.id && draggingTag) {
+      const result = addChildren(children, draggingTag, tag);
+      setChildren(result);
+      setTarget("");
       setIsDragging(false);
       setDraggingTag(null);
     }
@@ -129,25 +127,25 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
         if (child.id === tagToRemove.id) {
           return false;
         }
-        
+
         if (child.children && child.children.length > 0) {
           child.children = removeTag(child.children, tagToRemove);
         }
-        
+
         return true;
       });
     };
-    
+
     // Remove the current tag from the children array
-    const updatedChildren = removeTag(store_children, tag);
-    store_setChildren(updatedChildren);
-    
+    const updatedChildren = removeTag(children, tag);
+    setChildren(updatedChildren);
+
     // Reset any relevant state
-    store_setTarget("");
+    setTarget("");
     setIsDragging(false);
     setDraggingTag(null);
     setError(null);
-  }
+  };
 
   return (
     <motion.div
@@ -161,14 +159,11 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
       dragTransition={{ bounceDamping: 15, bounceStiffness: 800 }}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
       onMouseUp={handleDropAnimation}
       data-tag={JSON.stringify(tag)}
       variants={{
         initial: { opacity: 0, y: 50 },
         animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: 50 },
       }}
     >
       <Card
@@ -176,25 +171,26 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
         className="gap-2 !shadow-none bg-[#fef3c8] text-main-foreground p-3"
       >
         <CardHeader
-          className={cn("gap-0 px-0", store_isDragging && "pointer-events-none")}
+          className={cn("gap-0 px-0", isDragging && "pointer-events-none")}
         >
           <CardTitle className="text-lg flex items-center gap-2 group">
             {tag.name}
-            {/* <Copy className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer" /> */}
-            <Trash2 className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer" onClick={handleRemove}/>
+            <Trash2
+              className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer"
+              onClick={handleRemove}
+            />
           </CardTitle>
         </CardHeader>
         {tag.children?.map((child) => {
           return (
-            <div className="px-0" key={child.id}>
-              <DroppableTagItem
-                key={child.id}
-                tag={child}
-                elementConstraints={scope}
-              />
-            </div>
+            <DroppableTagItem
+              key={child.id}
+              tag={child}
+              elementConstraints={scope}
+            />
           );
         })}
+
         {tag.children?.length === 0 && (
           <CardContent className="pointer-events-none px-0">
             <div className="border-2 border-dashed border-foreground dark:border-main-foreground/30 rounded-base p-2 pointer-events-none">

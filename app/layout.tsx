@@ -9,6 +9,7 @@ import Footer from "@/components/layout/footer";
 import type { RootLayoutProps } from "@/lib/types";
 
 import "./globals.css";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "DOM Playground",
@@ -32,6 +33,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <Header />
             <main className={mainClasses}>{children}</main>
             <Footer />
+            <Toaster className="bg-main"/>
           </ThemeProvider>
         </GTProvider>
       </body>

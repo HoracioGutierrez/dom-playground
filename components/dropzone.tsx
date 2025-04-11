@@ -97,6 +97,8 @@ function Dropzone() {
             />
           );
         })}
+      </AnimatePresence>
+      <AnimatePresence>
         {children.length === 0 && (
           <motion.div
             key={"empty"}

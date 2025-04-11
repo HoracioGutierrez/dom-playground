@@ -33,7 +33,7 @@ function TagSelectorPannel({ ref }: { ref: React.RefObject<null> }) {
         </CardDescription>
         <div className="relative">
           <ScrollArea
-            className="rounded-base justify-center lg:h-[calc(100dvh_-_480px)] h-[200px] mt-8 w-full border-2 border-border border-dashed bg-main/20 p-4 grow z-50"
+            className="rounded-base justify-center lg:h-[calc(100dvh_-_410px)] h-[200px] mt-8 w-full border-2 border-border border-dashed bg-main/20 p-4 grow z-50"
             id="scrollable"
           >
             <div className="flex lg:flex-col gap-4 flex-wrap">
