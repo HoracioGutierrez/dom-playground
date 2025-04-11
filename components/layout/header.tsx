@@ -1,17 +1,26 @@
-import { LocaleSelector } from "gt-next/client"
-import { ThemeSwitcher } from "../theme-switcher"
+import { ThemeSwitcher } from "../theme-switcher";
+import LanguageSwitcher from "../language-switcher";
+import { T } from "gt-next";
 
 function Header() {
-    return (
-        <header className="bg-background border-b-4 h-14 flex items-center justify-between border-border">
-            <h1 className="text-lg uppercase text-foreground font-heading pl-4">DOM PLAYGROUND</h1>
-            <nav className="flex self-stretch">
-                <div className="border-l-4 px-2 flex items-center font-bold border-border">
-                    <LocaleSelector />
-                </div>
-                <ThemeSwitcher />
-            </nav>
-        </header>
-    )
+  return (
+    <>
+      <header className="flex justify-center">
+        <div className="pb-12 pt-4 flex flex-col 2xl:justify-center 2xl:text-center">
+          <T>
+            <h2 className="font-heading text-3xl">The DOM Playground</h2>
+            <p className="text-foreground/50 font-base">
+              Drag and drop HTML tags to the left into the dropzone to the
+              right.
+            </p>
+          </T>
+        </div>
+      </header>
+      <div className="absolute top-4 right-4 flex items-center gap-4">
+        <LanguageSwitcher />
+        <ThemeSwitcher />
+      </div>
+    </>
+  );
 }
-export default Header
+export default Header;
