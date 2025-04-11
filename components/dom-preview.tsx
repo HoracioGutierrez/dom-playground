@@ -41,14 +41,14 @@ export function DOMPreview() {
             <p className="text-foreground/50 font-base mb-8">
               The HTML code generated from the tags you have dropped.
             </p>
-            <div className="border-dashed border-2 border-border bg-main/50 p-4 rounded-md text-foreground font-mono relative group">
+            <div className="border-dashed border-2 border-border bg-main/50 p-4 rounded-md text-foreground relative group">
               {store_children.length > 0 ? (
                 <>
                   <Copy
                     className="absolute top-2 right-2 size-4 opacity-50 cursor-pointer"
                     onClick={copyToClipboard}
                   />
-                  <pre className="whitespace-pre-wrap">{HTMLString}</pre>
+                  <pre className="whitespace-pre-wrap font-mono">{HTMLString}</pre>
                 </>
               ) : (
                 <p className="text-main-foreground/50">
