@@ -7,8 +7,14 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const generateHTML = (tag: Tag): string => {
+  // Generate attributes string if any attributes have values
+  const attributesWithValues = tag.attributes.filter(attr => attr.value);
+  const attributesString = attributesWithValues.length > 0 
+    ? ` ${attributesWithValues.map(attr => `${attr.name}="${attr.value}"`).join(' ')}`
+    : '';
+
   if (!tag.children || tag.children.length === 0) {
-    return `<${tag.name}/>`;
+    return `<${tag.name}${attributesString}/>`;
   }
 
   const childrenHTML = tag.children
@@ -21,5 +27,5 @@ export const generateHTML = (tag: Tag): string => {
     })
     .join("\n");
 
-  return `<${tag.name}>\n${childrenHTML}\n</${tag.name}>`;
+  return `<${tag.name}${attributesString}>\n${childrenHTML}\n</${tag.name}>`;
 };

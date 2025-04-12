@@ -42,7 +42,14 @@ export const tags: Tag[] = [
     description:
       "Contains the visible page content. Common children: <header>, <main>, <footer>.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name", 
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "header", limit: 1 },

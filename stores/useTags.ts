@@ -1,7 +1,7 @@
-import type { Tag, useTagsProps } from "@/lib/types";
+import type { Attribute, Tag, useTagsProps } from "@/lib/types";
 import { create } from "zustand";
 
-export const useTags = create<useTagsProps>((set) => ({
+export const useTags = create<useTagsProps>((set, get) => ({
   children: [],
   target: "",
   isDragging: false,
@@ -18,4 +18,26 @@ export const useTags = create<useTagsProps>((set) => ({
   setDraggingTag: (draggingTag: Tag | null) => set({ draggingTag }),
   setError: (error: string | null | React.ReactNode) => set({ error }),
   setHoveredTarget: (target: string) => set({ hoveredTarget: target }),
+  updateTagAttributes: (tagId: string, attributes: Attribute[]) => {
+    console.log("🚀 ~ attributes:", attributes)
+    const { children } = get();
+    
+    // Helper function to recursively update attributes in the children tree
+    const updateAttributes = (tags: Tag[]): Tag[] => {
+      return tags.map((tag) => {
+        if (tag.id === tagId) {
+          return { ...tag, attributes };
+        }
+        
+        if (tag.children && tag.children.length > 0) {
+          return { ...tag, children: updateAttributes(tag.children) };
+        }
+        
+        return tag;
+      });
+    };
+    
+    const updatedChildren = updateAttributes(children);
+    set({ children: updatedChildren });
+  },
 }));

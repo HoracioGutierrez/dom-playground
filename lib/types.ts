@@ -60,6 +60,7 @@ export type useTagsProps = {
   setIsDragging: (isDragging: boolean) => void;
   setDraggingTag: (draggingTag: Tag | null) => void;
   setError: (error: string | null | React.ReactNode) => void;
+  updateTagAttributes: (tagId: string, attributes: Attribute[]) => void;
 };
 
 export type AttributesModalProps = {

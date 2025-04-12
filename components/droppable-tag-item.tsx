@@ -183,6 +183,19 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
         >
           <CardTitle className="text-lg flex items-center gap-2 group">
             {tag.name}
+            {tag.attributes.filter(attr => attr.value).map((attr) => (
+              <div key={attr.name} className="relative group">
+                <span 
+                  className="inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full bg-main-foreground/10 text-main-foreground"
+                  /* title={`${attr.value}`} */
+                >
+                  {attr.name}
+                </span>
+                <div className="absolute z-50 invisible group-hover:visible bg-black text-white text-xs rounded p-1 -mt-1 min-w-max">
+                  {attr.value}
+                </div>
+              </div>
+            ))}
             <AttributesModal tag={tag} />
             <Trash2
               className="size-5 text-main-foreground/20 hover:text-main-foreground cursor-pointer"
