@@ -8,7 +8,7 @@ function Header() {
       <header className="flex xl:p-0 px-4 xl:justify-center 2xl:max-w-[1566px] mx-auto relative w-full">
         <div className="pb-12 pt-4 flex flex-col 2xl:justify-center 2xl:text-center">
           <T>
-            <h2 className="font-heading text-3xl">The DOM Playground</h2>
+            <h2 className="font-heading text-3xl xl:max-w-full max-w-[200px] lg:max-w-xs leading-7 mb-2">The DOM Playground</h2>
             <p className="text-foreground/50 font-base">
               Drag and drop HTML tags to the left into the dropzone to the
               right.
