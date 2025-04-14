@@ -8,23 +8,26 @@ import {
 import { Copy } from "lucide-react";
 import { T } from "gt-next";
 import { useTags } from "@/stores/useTags";
-import { generateHTML } from "@/lib/utils";
-import { useMemo } from "react";
+import { generateHTML, generateJSX } from "@/lib/utils";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export function DOMPreview() {
   const { children: store_children } = useTags();
+  const [isJSX, setIsJSX] = useState(false);
 
-  const HTMLString = useMemo(() => {
-    return store_children.map((tag) => generateHTML(tag)).join("\n");
-  }, [store_children]);
+  const previewString = useMemo(() => {
+    return store_children.map((tag) => isJSX ? generateJSX(tag) : generateHTML(tag)).join("\n");
+  }, [store_children, isJSX]);
 
   const copyToClipboard = () => {
-    toast.promise(navigator.clipboard.writeText(HTMLString), {
+    toast.promise(navigator.clipboard.writeText(previewString), {
       loading: "Copying to clipboard...",
       success: "Copied to clipboard!",
       error: "Failed to copy to clipboard!",
-      className : "!bg-main !border-2 !border-border"
+      className: "!bg-main !border-2 !border-border",
     });
   };
 
@@ -39,8 +42,16 @@ export function DOMPreview() {
         <CardDescription>
           <T>
             <p className="text-foreground/50 font-base mb-8">
-              The HTML code generated from the tags you have dropped.
+              The {isJSX ? "JSX" : "HTML"} code generated from the tags you have dropped.
             </p>
+            <div className="flex items-center space-x-2 mb-4">
+              <Switch
+                id="preview-mode"
+                checked={isJSX}
+                onCheckedChange={setIsJSX}
+              />
+              <Label htmlFor="preview-mode">JSX Preview</Label>
+            </div>
             <div className="border-dashed border-2 border-border bg-main/50 p-4 rounded-md text-foreground relative group">
               {store_children.length > 0 ? (
                 <>
@@ -48,7 +59,9 @@ export function DOMPreview() {
                     className="absolute top-2 right-2 size-4 opacity-50 cursor-pointer"
                     onClick={copyToClipboard}
                   />
-                  <pre className="whitespace-pre-wrap font-mono">{HTMLString}</pre>
+                  <pre className="whitespace-pre-wrap font-mono">
+                    {previewString}
+                  </pre>
                 </>
               ) : (
                 <p className="text-main-foreground/50">

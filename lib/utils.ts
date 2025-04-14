@@ -29,3 +29,31 @@ export const generateHTML = (tag: Tag): string => {
 
   return `<${tag.name}${attributesString}>\n${childrenHTML}\n</${tag.name}>`;
 };
+
+export const generateJSX = (tag: Tag): string => {
+  // Generate attributes string if any attributes have values
+  const attributesWithValues = tag.attributes.filter(attr => attr.value);
+  const attributesString = attributesWithValues.length > 0 
+    ? ` ${attributesWithValues.map(attr => {
+        // Convert class to className for JSX
+        const name = attr.name === 'class' ? 'className' : attr.name;
+        return `${name}="${attr.value}"`;
+      }).join(' ')}`
+    : '';
+
+  if (!tag.children || tag.children.length === 0) {
+    return `<${tag.name}${attributesString} />`;
+  }
+
+  const childrenJSX = tag.children
+    .map((child) => {
+      const childContent = generateJSX(child)
+        .split("\n")
+        .map((line) => `  ${line}`)
+        .join("\n");
+      return childContent;
+    })
+    .join("\n");
+
+  return `<${tag.name}${attributesString}>\n${childrenJSX}\n</${tag.name}>`;
+};

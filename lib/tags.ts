@@ -14,6 +14,12 @@ export const tags: Tag[] = [
         placeholder: "en,es,pt",
         regex: /^[a-zA-Z]{2}$/,
       },
+      {
+        name: "dir",
+        value: "ltr",
+        placeholder: "ltr,rtl",
+        regex: /^(ltr|rtl)$/,
+      }
     ],
     children: [],
     possibleChildren: [
@@ -46,8 +52,14 @@ export const tags: Tag[] = [
       {
         name: "class",
         value: "",
-        placeholder: "class-name", 
+        placeholder: "class-name",
         regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
       }
     ],
     children: [],
@@ -82,7 +94,20 @@ export const tags: Tag[] = [
     name: "meta",
     description: "Defines metadata like charset, description, viewport, etc.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "charset",
+        value: "UTF-8",
+        placeholder: "UTF-8,ISO-8859-1",
+        regex: /^[a-zA-Z0-9-]+$/,
+      },
+      {
+        name: "name",
+        value: "",
+        placeholder: "viewport,description,keywords",
+        regex: /^[a-zA-Z0-9-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -91,7 +116,20 @@ export const tags: Tag[] = [
     name: "link",
     description: "Links external resources like stylesheets or icons.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "rel",
+        value: "stylesheet",
+        placeholder: "stylesheet,icon,preload",
+        regex: /^[a-zA-Z0-9-]+$/,
+      },
+      {
+        name: "href",
+        value: "",
+        placeholder: "path/to/resource",
+        regex: /^.+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -100,7 +138,20 @@ export const tags: Tag[] = [
     name: "style",
     description: "Contains internal CSS styles.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "type",
+        value: "text/css",
+        placeholder: "text/css",
+        regex: /^text\/css$/,
+      },
+      {
+        name: "media",
+        value: "all",
+        placeholder: "all,screen,print",
+        regex: /^[a-zA-Z0-9,]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -109,7 +160,20 @@ export const tags: Tag[] = [
     name: "script",
     description: "Embeds or references JavaScript code.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "type",
+        value: "text/javascript",
+        placeholder: "text/javascript,module",
+        regex: /^[a-zA-Z0-9\/-]+$/,
+      },
+      {
+        name: "src",
+        value: "",
+        placeholder: "path/to/script",
+        regex: /^.+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -118,7 +182,20 @@ export const tags: Tag[] = [
     name: "header",
     description: "Represents introductory content. Often contains <h1>, <nav>.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "h1", limit: 1 },
@@ -131,7 +208,20 @@ export const tags: Tag[] = [
     name: "main",
     description: "Represents the primary content of the document.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "section", limit: null },
@@ -144,7 +234,20 @@ export const tags: Tag[] = [
     name: "footer",
     description: "Defines a footer for its nearest section or the page.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "p", limit: null },
@@ -157,7 +260,20 @@ export const tags: Tag[] = [
     name: "div",
     description: "Generic container for grouping content and applying styles.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "p", limit: null },
@@ -173,7 +289,20 @@ export const tags: Tag[] = [
     name: "p",
     description: "Defines a paragraph of text.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "span", limit: null },
@@ -188,7 +317,20 @@ export const tags: Tag[] = [
     name: "span",
     description: "Inline container for text and inline elements.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "strong", limit: null },
@@ -201,7 +343,20 @@ export const tags: Tag[] = [
     name: "a",
     description: "Creates a hyperlink to another page or location.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "href",
+        value: "",
+        placeholder: "https://example.com",
+        regex: /^.+$/,
+      },
+      {
+        name: "target",
+        value: "_self",
+        placeholder: "_self,_blank",
+        regex: /^(_self|_blank)$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "span", limit: null },
@@ -214,7 +369,14 @@ export const tags: Tag[] = [
     name: "strong",
     description: "Indicates strong importance, typically bold.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [{ name: "em", limit: null }],
   },
@@ -223,7 +385,14 @@ export const tags: Tag[] = [
     name: "em",
     description: "Emphasizes text, typically italic.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -232,7 +401,20 @@ export const tags: Tag[] = [
     name: "ul",
     description: "Unordered list of items. Children must be <li>.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [{ name: "li", limit: null }],
   },
@@ -241,7 +423,20 @@ export const tags: Tag[] = [
     name: "ol",
     description: "Ordered list of items. Children must be <li>.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "start",
+        value: "1",
+        placeholder: "1,2,3",
+        regex: /^[0-9]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [{ name: "li", limit: null }],
   },
@@ -251,7 +446,20 @@ export const tags: Tag[] = [
     description:
       "List item within <ul> or <ol>. Can contain inline or block elements.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "value",
+        value: "",
+        placeholder: "1,2,3",
+        regex: /^[0-9]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "span", limit: null },
@@ -264,7 +472,20 @@ export const tags: Tag[] = [
     name: "img",
     description: "Embeds an image. Self-closing tag.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "src",
+        value: "",
+        placeholder: "path/to/image",
+        regex: /^.+$/,
+      },
+      {
+        name: "alt",
+        value: "",
+        placeholder: "Image description",
+        regex: /^.+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -282,7 +503,20 @@ export const tags: Tag[] = [
     name: "form",
     description: "Container for form controls like input, textarea, button.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "action",
+        value: "",
+        placeholder: "/submit",
+        regex: /^.+$/,
+      },
+      {
+        name: "method",
+        value: "get",
+        placeholder: "get,post",
+        regex: /^(get|post)$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "input", limit: null },
@@ -298,7 +532,20 @@ export const tags: Tag[] = [
     name: "input",
     description: "Form input control for user data. Self-closing.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "type",
+        value: "text",
+        placeholder: "text,password,email",
+        regex: /^[a-zA-Z0-9-]+$/,
+      },
+      {
+        name: "name",
+        value: "",
+        placeholder: "field-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -308,7 +555,20 @@ export const tags: Tag[] = [
     description:
       "Defines a label for an <input>. Can contain text or inline elements.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "for",
+        value: "",
+        placeholder: "input-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      },
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "span", limit: null },
@@ -320,7 +580,20 @@ export const tags: Tag[] = [
     name: "textarea",
     description: "Multiline text input control.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "name",
+        value: "",
+        placeholder: "field-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "rows",
+        value: "4",
+        placeholder: "4,5,6",
+        regex: /^[0-9]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -329,7 +602,20 @@ export const tags: Tag[] = [
     name: "button",
     description: "Clickable button, often used in forms.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "type",
+        value: "button",
+        placeholder: "button,submit,reset",
+        regex: /^(button|submit|reset)$/,
+      },
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [{ name: "span", limit: null }],
   },
@@ -338,7 +624,20 @@ export const tags: Tag[] = [
     name: "select",
     description: "Dropdown list of options.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "name",
+        value: "",
+        placeholder: "field-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      }
+    ],
     children: [],
     possibleChildren: [{ name: "option", limit: null }],
   },
@@ -347,7 +646,20 @@ export const tags: Tag[] = [
     name: "option",
     description: "Defines an item in a <select> dropdown.",
     hasChildren: false,
-    attributes: [],
+    attributes: [
+      {
+        name: "value",
+        value: "",
+        placeholder: "option-value",
+        regex: /^.+$/,
+      },
+      {
+        name: "selected",
+        value: "",
+        placeholder: "selected",
+        regex: /^selected$/,
+      }
+    ],
     children: [],
     possibleChildren: [],
   },
@@ -357,7 +669,20 @@ export const tags: Tag[] = [
     description:
       "Thematic grouping of content. Usually contains a heading and related elements.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "h2", limit: 1 },
@@ -370,7 +695,20 @@ export const tags: Tag[] = [
     name: "article",
     description: "Self-contained composition like a blog post or news article.",
     hasChildren: true,
-    attributes: [],
+    attributes: [
+      {
+        name: "class",
+        value: "",
+        placeholder: "class-name",
+        regex: /^[a-zA-Z0-9_-]+$/,
+      },
+      {
+        name: "id",
+        value: "",
+        placeholder: "unique-id",
+        regex: /^[a-zA-Z][a-zA-Z0-9_-]*$/,
+      }
+    ],
     children: [],
     possibleChildren: [
       { name: "h2", limit: 1 },

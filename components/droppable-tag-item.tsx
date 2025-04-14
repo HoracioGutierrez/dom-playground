@@ -163,7 +163,7 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
       dragConstraints={elementConstraints}
       dragElastic={0.3}
       dragSnapToOrigin
-      whileDrag={{ scale: 0.9, pointerEvents: "none" }}
+      whileDrag={{ scale: 0.975, pointerEvents: "none" }}
       dragTransition={{ bounceDamping: 15, bounceStiffness: 800 }}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
