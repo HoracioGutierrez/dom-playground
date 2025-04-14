@@ -49,6 +49,7 @@ export function DOMPreview() {
                 id="preview-mode"
                 checked={isJSX}
                 onCheckedChange={setIsJSX}
+                className="bg-secondary-background"
               />
               <Label htmlFor="preview-mode">JSX Preview</Label>
             </div>
