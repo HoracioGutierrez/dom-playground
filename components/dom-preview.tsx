@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import type { Tag } from "@/types/tag";
+import { Button } from "./ui/button";
 
 export function DOMPreview() {
   const { children: store_children, setChildren } = useTags();
@@ -39,7 +40,8 @@ export function DOMPreview() {
       const tag: Tag = {
         id: crypto.randomUUID(),
         name: element.tagName.toLowerCase(),
-        hasChildren: element.children.length > 0 || element.textContent?.trim() !== '',
+        hasChildren:
+          element.children.length > 0 || element.textContent?.trim() !== "",
         children: [],
         possibleChildren: [], // This would need to be populated based on HTML spec
         description: `A ${element.tagName.toLowerCase()} element`,
@@ -52,23 +54,27 @@ export function DOMPreview() {
       };
 
       // Special handling for html element
-      if (element.tagName.toLowerCase() === 'html') {
+      if (element.tagName.toLowerCase() === "html") {
         // Find head and body elements
-        const head = element.querySelector('head');
-        const body = element.querySelector('body');
-        
+        const head = element.querySelector("head");
+        const body = element.querySelector("body");
+
         if (head) {
           tag.children.push(transformElement(head));
         }
         if (body) {
           tag.children.push(transformElement(body));
         }
-      } 
+      }
       // Special handling for head element
-      else if (element.tagName.toLowerCase() === 'head') {
+      else if (element.tagName.toLowerCase() === "head") {
         // Only transform meta, title, and other head-specific elements
         for (const child of element.children) {
-          if (['meta', 'title', 'link', 'style', 'script'].includes(child.tagName.toLowerCase())) {
+          if (
+            ["meta", "title", "link", "style", "script"].includes(
+              child.tagName.toLowerCase(),
+            )
+          ) {
             tag.children.push(transformElement(child));
           }
         }
@@ -163,7 +169,7 @@ export function DOMPreview() {
                   className="w-full h-32 p-2 rounded-md bg-secondary-background border border-border resize-none"
                   placeholder="Describe the DOM structure you want to generate..."
                 />
-                <button
+                <Button
                   onClick={() => {
                     const textarea = document.getElementById(
                       "ai-prompt",
@@ -171,22 +177,14 @@ export function DOMPreview() {
                     handleGenerate(textarea.value);
                   }}
                   disabled={isGenerating}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 bg-main text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   type="button"
                 >
                   {isGenerating ? "Generating..." : "Generate DOM"}
-                </button>
+                </Button>
               </div>
             </div>
-            <div className="flex items-center justify-end space-x-2 mb-4">
-              <Switch
-                id="preview-mode"
-                checked={isJSX}
-                onCheckedChange={setIsJSX}
-                className="bg-secondary-background"
-              />
-              <Label htmlFor="preview-mode">JSX Preview</Label>
-            </div>
+            <hr className="my-4" />
             <div className="border-dashed border-2 border-border bg-main/50 p-4 rounded-md text-foreground relative group">
               {store_children.length > 0 ? (
                 <>
@@ -203,6 +201,15 @@ export function DOMPreview() {
                   You haven't dropped any tags yet!
                 </p>
               )}
+            </div>
+            <div className="flex items-center justify-end space-x-2 mt-4">
+              <Switch
+                id="preview-mode"
+                checked={isJSX}
+                onCheckedChange={setIsJSX}
+                className="bg-secondary-background"
+              />
+              <Label htmlFor="preview-mode">JSX Preview</Label>
             </div>
           </T>
         </CardDescription>
