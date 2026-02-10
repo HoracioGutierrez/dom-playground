@@ -1,32 +1,32 @@
 {
   "Header": {
     "title": "The DOM Playground",
-    "subtitle": "Drag and drop HTML tags to the left into the dropzone to the right."
+    "subtitle": "Arraste e solte as tags HTML da esquerda na zona de soltar a direita."
   },
   "DOMPreview": {
-    "title": "The DOM",
-    "description": "The {format} code generated from the tags you have dropped.",
-    "aiPromptLabel": "AI Prompt",
-    "aiPromptPlaceholder": "Describe the DOM structure you want to generate...",
-    "generating": "Generating...",
-    "generateButton": "Generate DOM",
-    "emptyState": "You haven't dropped any tags yet!",
-    "jsxPreviewLabel": "JSX Preview"
+    "title": "O DOM",
+    "description": "O codigo {format} gerado a partir das tags que voce soltou.",
+    "aiPromptLabel": "Prompt de IA",
+    "aiPromptPlaceholder": "Descreva a estrutura DOM que voce deseja gerar...",
+    "generating": "Gerando...",
+    "generateButton": "Gerar DOM",
+    "emptyState": "Voce ainda nao soltou nenhuma tag!",
+    "jsxPreviewLabel": "Pre-visualizacao JSX"
   },
   "Dropzone": {
-    "emptyState": "Click and drag one of the tags to the left and drop it here to start building",
-    "dropError": "The tag <{dragTag}/> cannot be placed inside a <{containerTag}/> tag as one of its direct children"
+    "emptyState": "Clique e arraste uma das tags da esquerda e solte aqui para comecar a construir",
+    "dropError": "A tag <{dragTag}/> nao pode ser colocada dentro de uma tag <{containerTag}/> como um de seus filhos diretos"
   },
   "TagSelector": {
-    "title": "HTML Tags",
-    "description": "Hover over a tag to see its description. You can also drag and drop tags into the dropzone to the right."
+    "title": "Tags HTML",
+    "description": "Passe o cursor sobre uma tag para ver sua descricao. Voce tambem pode arrastar e soltar tags na zona de soltar a direita."
   },
   "LanguageSwitcher": {
-    "label": "Languages",
-    "en": "English",
-    "es": "Spanish",
-    "pt": "Portuguese",
-    "ru": "Russian",
-    "de": "German"
+    "label": "Idiomas",
+    "en": "Ingles",
+    "es": "Espanhol",
+    "pt": "Portugues",
+    "ru": "Russo",
+    "de": "Alemao"
   }
 }

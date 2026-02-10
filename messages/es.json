@@ -1,32 +1,32 @@
 {
   "Header": {
     "title": "The DOM Playground",
-    "subtitle": "Drag and drop HTML tags to the left into the dropzone to the right."
+    "subtitle": "Arrastra y suelta las etiquetas HTML de la izquierda en la zona de soltar a la derecha."
   },
   "DOMPreview": {
-    "title": "The DOM",
-    "description": "The {format} code generated from the tags you have dropped.",
-    "aiPromptLabel": "AI Prompt",
-    "aiPromptPlaceholder": "Describe the DOM structure you want to generate...",
-    "generating": "Generating...",
-    "generateButton": "Generate DOM",
-    "emptyState": "You haven't dropped any tags yet!",
-    "jsxPreviewLabel": "JSX Preview"
+    "title": "El DOM",
+    "description": "El codigo {format} generado a partir de las etiquetas que has soltado.",
+    "aiPromptLabel": "Prompt de IA",
+    "aiPromptPlaceholder": "Describe la estructura DOM que quieres generar...",
+    "generating": "Generando...",
+    "generateButton": "Generar DOM",
+    "emptyState": "Aun no has soltado ninguna etiqueta!",
+    "jsxPreviewLabel": "Vista previa JSX"
   },
   "Dropzone": {
-    "emptyState": "Click and drag one of the tags to the left and drop it here to start building",
-    "dropError": "The tag <{dragTag}/> cannot be placed inside a <{containerTag}/> tag as one of its direct children"
+    "emptyState": "Haz clic y arrastra una de las etiquetas de la izquierda y sueltala aqui para empezar a construir",
+    "dropError": "La etiqueta <{dragTag}/> no puede colocarse dentro de una etiqueta <{containerTag}/> como uno de sus hijos directos"
   },
   "TagSelector": {
-    "title": "HTML Tags",
-    "description": "Hover over a tag to see its description. You can also drag and drop tags into the dropzone to the right."
+    "title": "Etiquetas HTML",
+    "description": "Pasa el cursor sobre una etiqueta para ver su descripcion. Tambien puedes arrastrar y soltar etiquetas en la zona de soltar a la derecha."
   },
   "LanguageSwitcher": {
-    "label": "Languages",
-    "en": "English",
-    "es": "Spanish",
-    "pt": "Portuguese",
-    "ru": "Russian",
-    "de": "German"
+    "label": "Idiomas",
+    "en": "Ingles",
+    "es": "Espanol",
+    "pt": "Portugues",
+    "ru": "Ruso",
+    "de": "Aleman"
   }
 }
