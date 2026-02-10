@@ -3,11 +3,9 @@ import * as motion from "motion/react-client";
 import { Button } from "./ui/button";
 import type { TagItemProps } from "@/lib/types";
 import { useTags } from "@/stores/useTags";
-import { startTransition, useRef, useState } from "react";
+import { startTransition, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useMotionValue } from "motion/react";
-
-export const dynamic = "force-dynamic";
 
 function TagItem({ elementConstraints, tag }: TagItemProps) {
   const {
@@ -22,6 +20,11 @@ function TagItem({ elementConstraints, tag }: TagItemProps) {
     hoveredTarget,
   } = useTags();
   const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const opacity = useMotionValue(0);
   const width = useMotionValue(0);
@@ -104,7 +107,7 @@ function TagItem({ elementConstraints, tag }: TagItemProps) {
           {`<${tag.name}/>`}
         </Button>
       </motion.div>
-      {typeof document !== "undefined" &&
+      {mounted &&
         createPortal(
           <motion.div
             className="fixed z-50 pointer-events-none flex"
