@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(node -e:*)",
+      "Bash(GOOGLE_GENERATIVE_AI_API_KEY=AIzaSyDwRf9Hkk0Zbvffe6aIw2ud6Q_vj_A3wsI node -e \"\nconst { google } = require\\(''@ai-sdk/google''\\);\nconst { generateText } = require\\(''ai''\\);\n\nasync function test\\(\\) {\n  try {\n    const result = await generateText\\({\n      model: google\\(''gemini-2.0-flash''\\),\n      prompt: ''Say hello in one word'',\n    }\\);\n    console.log\\(''text:'', JSON.stringify\\(result.text\\)\\);\n    console.log\\(''finishReason:'', result.finishReason\\);\n  } catch \\(e\\) {\n    console.log\\(''ERROR:'', e.message\\);\n  }\n}\ntest\\(\\);\n\")"
+    ]
+  }
+}
