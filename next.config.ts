@@ -1,10 +1,8 @@
 import type { NextConfig } from "next";
-import { withGTConfig } from 'gt-next/config';
+import createNextIntlPlugin from "next-intl/plugin";
 
+const withNextIntl = createNextIntlPlugin();
 
-const nextConfig: NextConfig = {
-};
+const nextConfig: NextConfig = {};
 
-export default withGTConfig(nextConfig, {
-  locales: ['pt', 'es', 'en', 'de', 'ru'],
-});
+export default withNextIntl(nextConfig);

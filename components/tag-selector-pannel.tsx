@@ -1,4 +1,4 @@
-import { T } from "gt-next";
+"use client";
 import {
   Card,
   CardDescription,
@@ -9,27 +9,24 @@ import TagItem from "@/components/tag-item";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { tags } from "@/lib/tags";
 import { useTags } from "@/stores/useTags";
+import { useTranslations } from "next-intl";
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
 
 function TagSelectorPannel({ ref }: { ref: React.RefObject<null> }) {
   const { hoveredTarget } = useTags();
+  const t = useTranslations("TagSelector");
 
   return (
     <Card className="w-full min-w-xs">
       <CardHeader>
         <CardTitle>
-          <T>
-            <h2 className="font-heading text-2xl">HTML Tags</h2>
-          </T>
+          <h2 className="font-heading text-2xl">{t("title")}</h2>
         </CardTitle>
         <CardDescription>
-          <T>
-            <p className="text-foreground/50 font-base">
-              Hover over a tag to see its description. You can also drag and
-              drop tags into the dropzone to the right.
-            </p>
-          </T>
+          <p className="text-foreground/50 font-base">
+            {t("description")}
+          </p>
         </CardDescription>
         <div className="relative">
           <ScrollArea
@@ -51,9 +48,7 @@ function TagSelectorPannel({ ref }: { ref: React.RefObject<null> }) {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <T>
-                  {hoveredTarget}
-                </T>
+                {hoveredTarget}
               </motion.div>
             )}
           </AnimatePresence>

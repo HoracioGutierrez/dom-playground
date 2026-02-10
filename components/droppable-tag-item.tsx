@@ -4,6 +4,7 @@ import type { DroppableTagItemProps, Tag } from "@/lib/types";
 import { useAnimate } from "motion/react";
 import { useEffect, useState } from "react";
 import { useTags } from "@/stores/useTags";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,7 @@ import AttributesModal from "./attributes-modal";
 function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
   const [scope, animate] = useAnimate();
   const [canBeDropped, setCanBeDropped] = useState(false);
+  const t = useTranslations("Dropzone");
   const {
     draggingTag,
     target,
@@ -92,7 +94,7 @@ function DroppableTagItem({ elementConstraints, tag }: DroppableTagItemProps) {
     } else {
       animate(scope.current.children[0], { backgroundColor: "#ff6669" });
       setError(
-        `The tag <${draggingTag?.name}/> cannot be placed inside a <${tag.name}/> tag as one of it's direct children`,
+        t("dropError", { dragTag: draggingTag?.name ?? "", containerTag: tag.name }),
       );
     }
   };

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { getLocale } from "gt-next/server";
-import { GTProvider } from "gt-next";
+import { getLocale, getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 import { ThemeProvider } from "@/components/theme-prodiver";
 import Header from "@/components/layout/header";
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   const locale = await getLocale();
+  const messages = await getMessages();
 
   const bodyClasses =
     "bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-[size:70px_70px] min-h-dvh flex flex-col";
@@ -28,14 +29,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={bodyClasses}>
-        <GTProvider>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <ThemeProvider attribute="class" disableTransitionOnChange>
             <Header />
             <main className={mainClasses}>{children}</main>
             <Footer />
-            <Toaster className="bg-main"/>
+            <Toaster className="bg-main" />
           </ThemeProvider>
-        </GTProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

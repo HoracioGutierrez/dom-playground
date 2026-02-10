@@ -1,7 +1,7 @@
 "use client";
 import DroppableTagItem from "@/components/droppable-tag-item";
 import { useTags } from "@/stores/useTags";
-import { T } from "gt-next";
+import { useTranslations } from "next-intl";
 import { ArrowBigDown, Info } from "lucide-react";
 import { AnimatePresence, useAnimate } from "motion/react";
 import * as motion from "motion/react-client";
@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 function Dropzone() {
   const [scope, animate] = useAnimate();
+  const t = useTranslations("Dropzone");
   const {
     draggingTag,
     target,
@@ -123,10 +124,7 @@ function Dropzone() {
             >
               <ArrowBigDown className="size-10" />
             </motion.div>
-            <T>
-              Click and drag one of the tags to the left and drop it here to
-              start building
-            </T>
+            {t("emptyState")}
           </motion.div>
         )}
         {error && (
@@ -140,7 +138,7 @@ function Dropzone() {
             className="pointer-events-none absolute bg-[#ff6669]/50 h-auto p-2 border-4 rounded-md bottom-4 left-4 right-4 flex gap-2 justify-center animate-pulse"
           >
             <Info className="size-10 text-red-400" />
-            <T>{error}</T>
+            {error}
           </motion.div>
         )}
       </AnimatePresence>

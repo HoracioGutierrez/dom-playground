@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Copy } from "lucide-react";
-import { T } from "gt-next";
+import { useTranslations } from "next-intl";
 import { useTags } from "@/stores/useTags";
 import { generateHTML, generateJSX } from "@/lib/utils";
 import { useMemo, useState } from "react";
@@ -124,71 +124,68 @@ export function DOMPreview() {
     });
   };
 
+  const t = useTranslations("DOMPreview");
+
   return (
     <Card className="w-full min-w-xs">
       <CardHeader>
         <CardTitle>
-          <T>
-            <h2 className="font-heading text-2xl">The DOM</h2>
-          </T>
+          <h2 className="font-heading text-2xl">{t("title")}</h2>
         </CardTitle>
         <CardDescription>
-          <T>
-            <p className="text-foreground/50 font-base mb-8">
-              The {isJSX ? "JSX" : "HTML"} code generated from the tags you have
-              dropped.
-            </p>
-            <div className="space-y-4 mb-4">
-              <div className="flex flex-col space-y-2">
-                <Label htmlFor="ai-prompt">AI Prompt</Label>
-                <textarea
-                  id="ai-prompt"
-                  className="w-full h-32 p-2 rounded-md bg-secondary-background border border-border resize-none"
-                  placeholder="Describe the DOM structure you want to generate..."
-                />
-                <Button
-                  onClick={() => {
-                    const textarea = document.getElementById(
-                      "ai-prompt",
-                    ) as HTMLTextAreaElement;
-                    handleGenerate(textarea.value);
-                  }}
-                  disabled={isGenerating}
-                  className="px-4 py-2 bg-main text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  type="button"
-                >
-                  {isGenerating ? "Generating..." : "Generate DOM"}
-                </Button>
-              </div>
-            </div>
-            <hr className="my-4" />
-            <div className="border-dashed border-2 border-border bg-main/50 p-4 rounded-md text-foreground relative group">
-              {store_children.length > 0 ? (
-                <>
-                  <Copy
-                    className="absolute top-2 right-2 size-4 opacity-50 cursor-pointer"
-                    onClick={copyToClipboard}
-                  />
-                  <pre className="whitespace-pre-wrap font-mono">
-                    {previewString}
-                  </pre>
-                </>
-              ) : (
-                <p className="text-main-foreground/50">
-                  You haven't dropped any tags yet!
-                </p>
-              )}
-            </div>
-            <div className="flex items-center justify-end space-x-2 mt-4">
-              <Switch
-                id="preview-mode"
-                checked={isJSX}
-                onCheckedChange={setIsJSX}
-                className="bg-secondary-background"
+          <p className="text-foreground/50 font-base mb-8">
+            {t("description", { format: isJSX ? "JSX" : "HTML" })}
+          </p>
+          <div className="space-y-4 mb-4">
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="ai-prompt">{t("aiPromptLabel")}</Label>
+              <textarea
+                id="ai-prompt"
+                className="w-full h-32 p-2 rounded-md bg-secondary-background border border-border resize-none"
+                placeholder={t("aiPromptPlaceholder")}
               />
-              <Label htmlFor="preview-mode">JSX Preview</Label>
+              <Button
+                onClick={() => {
+                  const textarea = document.getElementById(
+                    "ai-prompt",
+                  ) as HTMLTextAreaElement;
+                  handleGenerate(textarea.value);
+                }}
+                disabled={isGenerating}
+                className="px-4 py-2 bg-main text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                type="button"
+              >
+                {isGenerating ? t("generating") : t("generateButton")}
+              </Button>
             </div>
-          </T>
+          </div>
+          <hr className="my-4" />
+          <div className="border-dashed border-2 border-border bg-main/50 p-4 rounded-md text-foreground relative group">
+            {store_children.length > 0 ? (
+              <>
+                <Copy
+                  className="absolute top-2 right-2 size-4 opacity-50 cursor-pointer"
+                  onClick={copyToClipboard}
+                />
+                <pre className="whitespace-pre-wrap font-mono">
+                  {previewString}
+                </pre>
+              </>
+            ) : (
+              <p className="text-main-foreground/50">
+                {t("emptyState")}
+              </p>
+            )}
+          </div>
+          <div className="flex items-center justify-end space-x-2 mt-4">
+            <Switch
+              id="preview-mode"
+              checked={isJSX}
+              onCheckedChange={setIsJSX}
+              className="bg-secondary-background"
+            />
+            <Label htmlFor="preview-mode">{t("jsxPreviewLabel")}</Label>
+          </div>
         </CardDescription>
       </CardHeader>
     </Card>
