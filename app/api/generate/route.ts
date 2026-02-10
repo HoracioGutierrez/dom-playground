@@ -1,26 +1,17 @@
-import {
-  /* OpenAIStream,  */ /* StreamingTextResponse, */ streamText,
-  /* StreamTextResult, */
-} from "ai";
-import OpenAI from "openai";
+import { streamText } from "ai";
 import { google } from "@ai-sdk/google";
 
-// Create an OpenAI API client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const SYSTEM_MESSAGE = `You are a helpful AI assistant that generates HTML DOM structures. 
+const SYSTEM_MESSAGE = `You are a helpful AI assistant that generates HTML DOM structures.
 Your task is to create valid HTML code based on the user's description.
-IMPORTANT: 
-1. Do not include DOCTYPE
-2. The generated code MUST be wrapped in <html> and <body> tags
-3. Use semantic HTML elements where appropriate
-4. Include necessary attributes for accessibility
-5. Keep the structure clean and well-formatted
-6. The code should be in HTML format
-7. Use BEM naming convention for classes if needed
-8. The main content should be placed inside the <body> tag`;
+IMPORTANT:
+1. Generate ONLY the content elements described - do NOT wrap in html/head/body unless the user explicitly asks for a full page
+2. Do NOT use markdown code fences. Output ONLY raw HTML
+3. Do not include DOCTYPE
+4. Use semantic HTML elements where appropriate
+5. Include necessary attributes for accessibility
+6. Keep the structure clean and well-formatted
+7. The code should be in HTML format
+8. Use BEM naming convention for classes if needed`;
 
 export const runtime = "edge";
 

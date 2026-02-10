@@ -27,14 +27,12 @@ export function DOMPreview() {
       .join("\n");
   }, [store_children, isJSX]);
 
-  const transformHTMLToTag = (html: string): Tag => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
-    const htmlElement = doc.documentElement;
+  const transformHTMLToTag = (html: string): Tag[] => {
+    // Strip markdown code fences if present
+    const cleaned = html.replace(/```(?:html)?\n?/gi, "").trim();
 
-    if (!htmlElement) {
-      throw new Error("No valid HTML element found");
-    }
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(cleaned, "text/html");
 
     const transformElement = (element: Element): Tag => {
       const tag: Tag = {
@@ -43,53 +41,32 @@ export function DOMPreview() {
         hasChildren:
           element.children.length > 0 || element.textContent?.trim() !== "",
         children: [],
-        possibleChildren: [], // This would need to be populated based on HTML spec
+        possibleChildren: [],
         description: `A ${element.tagName.toLowerCase()} element`,
         attributes: Array.from(element.attributes).map((attr) => ({
           name: attr.name,
           value: attr.value,
           placeholder: `Enter ${attr.name}`,
-          regex: /.*/, // Default regex that accepts any value
+          regex: /.*/,
         })),
       };
 
-      // Special handling for html element
-      if (element.tagName.toLowerCase() === "html") {
-        // Find head and body elements
-        const head = element.querySelector("head");
-        const body = element.querySelector("body");
-
-        if (head) {
-          tag.children.push(transformElement(head));
-        }
-        if (body) {
-          tag.children.push(transformElement(body));
-        }
-      }
-      // Special handling for head element
-      else if (element.tagName.toLowerCase() === "head") {
-        // Only transform meta, title, and other head-specific elements
-        for (const child of element.children) {
-          if (
-            ["meta", "title", "link", "style", "script"].includes(
-              child.tagName.toLowerCase(),
-            )
-          ) {
-            tag.children.push(transformElement(child));
-          }
-        }
-      }
-      // Normal transformation for other elements
-      else {
-        for (const child of element.children) {
-          tag.children.push(transformElement(child));
-        }
+      for (const child of element.children) {
+        tag.children.push(transformElement(child));
       }
 
       return tag;
     };
 
-    return transformElement(htmlElement);
+    // Check if the AI explicitly generated an <html> tag
+    const hasExplicitHtml = /<html[\s>]/i.test(cleaned);
+
+    if (hasExplicitHtml) {
+      return [transformElement(doc.documentElement)];
+    }
+
+    // Otherwise extract only the actual content from body (DOMParser always wraps in html>head>body)
+    return Array.from(doc.body.children).map(transformElement);
   };
 
   const handleGenerate = async (prompt: string) => {
@@ -127,9 +104,9 @@ export function DOMPreview() {
       }
       console.log("🚀 ~ handleGenerate ~ result:", result);
 
-      // Transform the HTML string into a Tag structure
-      const newTag = transformHTMLToTag(result);
-      setChildren([newTag]);
+      // Transform the HTML string into Tag structures
+      const newTags = transformHTMLToTag(result);
+      setChildren(newTags);
     } catch (error) {
       console.error("Generation error:", error);
       toast.error("Failed to generate DOM structure");
