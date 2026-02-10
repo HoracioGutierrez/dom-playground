@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { getLocale, getMessages } from "next-intl/server";
-import { NextIntlClientProvider } from "next-intl";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 
 import { ThemeProvider } from "@/components/theme-prodiver";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-
-import type { RootLayoutProps } from "@/lib/types";
 
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -17,8 +17,23 @@ export const metadata: Metadata = {
     "Drag and drop HTML tags to the left into the dropzone to the right.",
 };
 
-export default async function RootLayout({ children }: RootLayoutProps) {
-  const locale = await getLocale();
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  setRequestLocale(locale);
+
   const messages = await getMessages();
 
   const bodyClasses =

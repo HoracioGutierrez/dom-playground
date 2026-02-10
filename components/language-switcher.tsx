@@ -1,16 +1,16 @@
 "use client";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 
 function LanguageSwitcher() {
     const t = useTranslations("LanguageSwitcher");
     const locale = useLocale();
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleChange = (language: string) => {
-        document.cookie = `NEXT_LOCALE=${language};path=/;max-age=31536000`;
-        router.refresh();
+        router.replace(pathname, { locale: language });
     }
 
     return (
